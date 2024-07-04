@@ -1,0 +1,9 @@
+RewriteEngine On
+RewriteBase /codeigniter/
+
+# Si un archivo o directorio existe, usa directamente el acceso
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# De lo contrario, reescribe la URL para usar index.php
+RewriteRule ^(.*)$ /codeigniter/index.php/$1 [L]
