@@ -147,7 +147,23 @@
                 }
             });
         });
-    });
+
+        function toggleDetalle() {
+            var tipoEstudio = $('#tipo_estudio').val();
+            if (tipoEstudio === 'Biopsia') {
+                $('#detalle_estudio').show();
+            } else {
+                $('#pap_estudio').hide();
+            }
+        }
+        toggleDetalle(); // Inicializar visibilidad de los campos
+
+        // Cambiar visibilidad de los campos al cambiar el tipo de estudio
+        $('#tipo_estudio').on('change', toggleDetalle);
+});
+
+
+    
 </script>
 
 

@@ -24,8 +24,8 @@ class Biopsia_model extends CI_Model {
                 e.fecha_carga AS fecha_carga,
                 CONCAT(prof.nombres, ' ', prof.apellidos) AS profesional, 
                 e.estado_estudio AS estado,
-                e.medico_solicitante AS medico
-                
+                e.medico_solicitante AS medico,
+                e.material as material
             FROM estudio e 
             INNER JOIN servicio s ON e.servicio_id = s.id 
             INNER JOIN tipo_de_estudio tde ON e.tipo_estudio_id = tde.id 
@@ -35,6 +35,8 @@ class Biopsia_model extends CI_Model {
     
     
     $result_first = $this->db2->query($sql_first, [$n_servicio])->row_array();
+
+    
     
     return $result_first;
     }
@@ -125,6 +127,14 @@ class Biopsia_model extends CI_Model {
         // Retornar el resultado de la ejecución
         return $query;
 
+    }
+
+    public function insertar_detalle($data) {
+        return $this->db2->insert('detalle_estudio', $data);
+    }
+
+    public function insertar_pap($data){
+        return $this->db2->insert('detalle_pap', $data);
     }
 
 }
