@@ -82,9 +82,11 @@ class Biopsia extends CI_Controller {
     public function adjuntarDetalle(){
         try {
             $this->db2 = $this->load->database('second_db', TRUE);
-            $tipo_estudio = $this->input->post('tipo_estudio');
+            $tipo_estudio = $this->input->post('tipo_estudio_id');
     
-            if ($tipo_estudio == 'Pap') {
+            $n_servicio = $this->input->post('n_servicio');
+    
+            if ($tipo_estudio == 3) {  // Si es PAP
                 $data_pap = array(
                     'estado_especimen' => $this->input->post('estado_especimen'),
                     'celulas_pavimentosas' => $this->input->post('celulas_pavimentosas'),
@@ -104,6 +106,16 @@ class Biopsia extends CI_Controller {
                 );
     
                 $result = $this->Biopsia_model->insertar_pap($data_pap);
+                
+    
+                /*if ($result) {
+                    $detalle_pap_id = $this->db2->insert_id();
+                    echo "El ID del último registro insertado es: " . $detalle_pap_id;
+                } else {
+                    echo "Error en la inserción.";
+                }*/
+                
+            
             
             } else {
                 $data_detalle = array(
@@ -121,8 +133,19 @@ class Biopsia extends CI_Controller {
                     'material' => $this->input->post('material'),
                     'tipo_estudio_id' => $this->input->post('tipo_estudio_id')
                 );
-    
+
                 $result = $this->Biopsia_model->insertar_detalle($data_detalle);
+                /*$this->db2->trans_start(); // Iniciar transacción
+
+                // Obtener el ID del detalle insertado
+                $detalle_estudio_id = $this->db2->insert_id();
+
+                echo "El ID del último registro insertado es: " . $detalle_estudio_id;
+
+                // Actualizar tabla estudio con detalle_estudio_id
+                $result_detalle = $this->Biopsia_model->actualizarDetalleId($n_servicio, $detalle_estudio_id, null);
+
+                $this->db2->trans_complete(); // Completar transacción*/
             }
     
             if ($result) {

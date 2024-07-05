@@ -60,13 +60,13 @@
     </div>
 
     <div class="row mb-3">
-        <div class="col-md-6">
+            <div class="col-md-6">
             <label for="tipo_estudio" class="form-label">Tipo de estudio:</label>
-            <select id="tipo_estudio" name="tipo_estudio" class="form-control">
-                <option value="Biopsia" <?= $estudio['tipo_estudio'] == 'Biopsia' ? 'selected' : '' ?>>Biopsia</option>
-                <option value="Citologia" <?= $estudio['tipo_estudio'] == 'Citologia' ? 'selected' : '' ?>>Citologia</option>
-                <option value="Pap" <?= $estudio['tipo_estudio'] == 'Pap' ? 'selected' : '' ?>>Pap</option>
-                <option value="Intraoperatorio" <?= $estudio['tipo_estudio'] == 'Intraoperatorio' ? 'selected' : '' ?>>Intraoperatorio</option>
+            <select id="tipo_estudio_id" name="tipo_estudio_id" class="form-control">
+                <option value="1" <?= $estudio['tipo_estudio_id'] == 1 ? 'selected' : '' ?>>Biopsia</option>
+                <option value="2" <?= $estudio['tipo_estudio_id'] == 2 ? 'selected' : '' ?>>Citologia</option>
+                <option value="3" <?= $estudio['tipo_estudio_id'] == 3 ? 'selected' : '' ?>>Pap</option>
+                <option value="4" <?= $estudio['tipo_estudio_id'] == 4 ? 'selected' : '' ?>>Intraoperatorio</option>
             </select>
         </div>
         <div class="col-md-6">
@@ -100,8 +100,8 @@
     <hr>
 
     <!-- Mostrar formulario específico para Pap -->
-    <?php if ($estudio['tipo_estudio'] == 'Pap'): ?>
-        <div id="pap_estudio" class="row mb-3">
+    <?php if ($estudio['tipo_estudio_id'] == 3): ?>
+        <div id="pap_estudio" action="<?= site_url('biopsia/adjuntar_detalle') ?>" method="post" class="row mb-3">
             <div class="col-md-6">
                 <label for="estado_especimen">Estado Especimen:</label>
                 <input type="text" class="form-control" id="estado_especimen" name="estado_especimen" placeholder="Estado Especimen">

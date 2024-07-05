@@ -14,6 +14,7 @@ class Biopsia_model extends CI_Model {
                 e.nro_servicio AS n_servicio, 
                 s.nombre_servicio AS servicio, 
                 tde.nombre AS tipo_estudio, 
+                tde.id AS tipo_estudio_id,
                 per.persona_salutte_id AS persona_id,
                 CONCAT(per.nombres, ' ', per.apellidos) AS paciente,
                 per.documento as documento,
@@ -89,8 +90,8 @@ class Biopsia_model extends CI_Model {
     }
 
 
-    public function actualizarEstudio($nro_servicio, $data) {
-        // Construir la consulta de actualización
+    /*public function actualizarEstudio($nro_servicio, $data) {
+        
         $sql_actualizar = "UPDATE estudio e
                            INNER JOIN servicio s ON e.servicio_id = s.id
                            INNER JOIN tipo_de_estudio tde ON e.tipo_estudio_id = tde.id
@@ -104,7 +105,7 @@ class Biopsia_model extends CI_Model {
                                dt.macro = ?
                            WHERE e.nro_servicio = ?";
 
-        // Preparar los datos
+       
         $params = [
             $data['servicio'],
             $data['tipo_estudio'],
@@ -118,23 +119,64 @@ class Biopsia_model extends CI_Model {
             $data['conclusion'],             // Asumiendo que 'conclusion' viene en $data
             $data['observacion'],            // Asumiendo que 'observacion' viene en $data
             $data['observacion_interna'],*/
-            $nro_servicio
-        ];
+           // $nro_servicio
+        //];
 
-        // Ejecutar la consulta
+        /*
         $query = $this->db2->query($sql_actualizar, $params);
 
         // Retornar el resultado de la ejecución
         return $query;
 
+    }*/
+
+    public function insertar_pap($data_pap) {
+        return $this->db2->insert('detalle_pap', $data_pap);
     }
 
     public function insertar_detalle($data) {
         return $this->db2->insert('detalle_estudio', $data);
     }
 
-    public function insertar_pap($data){
-        return $this->db2->insert('detalle_pap', $data);
+    /*public function actualizarDetalleId($n_servicio, $detalle_estudio_id) {
+        if ($detalle_estudio_id !== null) {
+            $data = array('detalle_estudio_id' => $detalle_estudio_id);
+        } else {
+            return false; 
+        }
+    
+        $this->db2->where('nro_servicio', $n_servicio);
+        $this->db2->update('estudio', $data);
+    
+        return $this->db2->affected_rows() > 0;
     }
+
+    public function actualizarPapId($n_servicio, $detalle_pap_id) {
+        if ($detalle_pap_id !== null) {
+            $data = array('detalle_pap_id' => $detalle_pap_id);
+        } else {
+            return false; 
+        }
+
+        $this->db2->where('nro_servicio', $n_servicio);
+        $this->db2->update('estudio', $data);
+    
+        return $this->db2->affected_rows() > 0;
+    }
+
+    public function ultimoDetalleInsertado() {
+        // Consulta el último registro insertado en la tabla detalle_estudio
+        $sql = "SELECT id FROM detalle_estudio ORDER BY id DESC LIMIT 1";
+        $query = $this->db2->query($sql);
+        return $query->row(); 
+    }
+
+    public function ultimoPapInsertado() {
+        // Consulta el último registro insertado en la tabla detalle_estudio
+        $sql = "SELECT id FROM detalle_pap ORDER BY id DESC LIMIT 1";
+        $query = $this->db2->query($sql);
+        return $query->row(); 
+    }*/
+
 
 }
