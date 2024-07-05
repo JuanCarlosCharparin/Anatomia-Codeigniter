@@ -107,7 +107,7 @@
         $(document).on('click', '#saveChanges', function() {
             var formData = $('#editEstudioForm').serialize(); // Serializa los datos del formulario
             $.ajax({
-                url: '<?php echo base_url(); ?>mantenimiento/Biopsia/updateEstudio',
+                url: '<?php echo base_url(); ?>mantenimiento/Biopsia/adjuntarDetalle',
                 type: 'POST',
                 data: formData,
                 success: function(response) {
@@ -125,6 +125,7 @@
                 }
             });
         });
+
 
         // Manejar el evento click para abrir el modal
         $('.btn-edit').on('click', function () {
