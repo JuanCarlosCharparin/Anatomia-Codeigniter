@@ -28,6 +28,10 @@
 <!-- AdminLTE for demo purposes -->
 <script src="<?php echo base_url();?>assets/template/dist/js/demo.js"></script>
 
+<!-- Incluir SweetAlerts desde una CDN -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+
 <!-- Inicialización de scripts -->
 <script>
 $(document).ready(function() {

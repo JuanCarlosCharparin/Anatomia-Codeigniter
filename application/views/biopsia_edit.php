@@ -104,90 +104,90 @@
         <div id="pap_estudio" action="<?= site_url('biopsia/adjuntar_detalle') ?>" method="post" class="row mb-3">
             <div class="col-md-6">
                 <label for="estado_especimen">Estado Especimen:</label>
-                <input type="text" class="form-control" id="estado_especimen" name="estado_especimen" placeholder="Estado Especimen">
+                <input type="text" class="form-control" id="estado_especimen" name="estado_especimen">
             </div>
             <p></p>
             <div class="col-md-6">
                 <label for="celulas_pavimentosas">Celulas Pavimentosas:</label>
-                <input type="text" class="form-control" id="celulas_pavimentosas" name="celulas_pavimentosas" placeholder="Celulas Pavimentosas" >
+                <input type="text" class="form-control" id="celulas_pavimentosas" name="celulas_pavimentosas"  >
                 <p></p>
             </div>
             <p></p>
             <div class="col-md-6">
                 <label for="celulas_cilindricas">Celulas Cilindricas:</label>
-                <input type="text" class="form-control" id="celulas_cilindricas" name="celulas_cilindricas" placeholder="Celulas Cilindricas" >
+                <input type="text" class="form-control" id="celulas_cilindricas" name="celulas_cilindricas">
                 <p></p>
             </div>
             <p></p>
             <div class="col-md-6">
                 <label for="valor_hormonal">Valor Hormonal:</label>
-                <input type="text" class="form-control" id="valor_hormonal" name="valor_hormonal" placeholder="Valor Hormonal" >
+                <input type="text" class="form-control" id="valor_hormonal" name="valor_hormonal" >
                 <p></p>
             </div>
             <p></p>
             <div class="col-md-6">
                 <label for="fecha_lectura">Fecha Lectura:</label>
-                <input type="date" class="form-control" id="fecha_lectura" name="fecha_lectura" placeholder="Fecha Lectura" >
+                <input type="date" class="form-control" id="fecha_lectura" name="fecha_lectura">
                 <p></p>
             </div>
             <p></p>
             <div class="col-md-6">
                 <label for="valor_hormonal_HC">Valor Hormonal HC:</label>
-                <input type="text" class="form-control" id="valor_hormonal_HC" name="valor_hormonal_HC" placeholder="Valor Hormonal HC">
+                <input type="text" class="form-control" id="valor_hormonal_HC" name="valor_hormonal_HC">
                 <p></p>
             </div>
             <p></p>
             <div class="col-md-6">
                 <label for="cambios_reactivos">Cambios Reactivos:</label>
-                <input type="text" class="form-control" id="cambios_reactivos" name="cambios_reactivos" placeholder="Cambios Reactivos">
+                <input type="text" class="form-control" id="cambios_reactivos" name="cambios_reactivos">
                 <p></p>
             </div>
             <p></p>
             <div class="col-md-6">
                 <label for="cambios_asoc_celula_pavimentosa">Cambios Asociados a Célula Pavimentosa:</label>
-                <input type="text" class="form-control" id="cambios_asoc_celula_pavimentosa" name="cambios_asoc_celula_pavimentosa" placeholder="Cambios Asociados a Célula Pavimentosa" >
+                <input type="text" class="form-control" id="cambios_asoc_celula_pavimentosa" name="cambios_asoc_celula_pavimentosa" >
                 <p></p>
             </div>
             <p></p>
             <div class="col-md-6">
                 <label for="cambios_celula_glandulares">Cambios en Células Glandulares:</label>
-                <input type="text" class="form-control" id="cambios_celula_glandulares" name="cambios_celula_glandulares" placeholder="Cambios en Células Glandulares">
+                <input type="text" class="form-control" id="cambios_celula_glandulares" name="cambios_celula_glandulares">
                 <p></p>
             </div>
             <p></p>
             <div class="col-md-6">
                 <label for="celula_metaplastica">Célula Metaplástica:</label>
-                <input type="text" class="form-control" id="celula_metaplastica" name="celula_metaplastica" placeholder="Célula Metaplástica" >
+                <input type="text" class="form-control" id="celula_metaplastica" name="celula_metaplastica">
                 <p></p>
             </div>
             <p></p>
             <div class="col-md-6">
                 <label for="otras_neo_malignas">Otras Neoplasias Malignas:</label>
-                <input type="text" class="form-control" id="otras_neo_malignas" name="otras_neo_malignas" placeholder="Otras Neoplasias Malignas">
+                <input type="text" class="form-control" id="otras_neo_malignas" name="otras_neo_malignas">
                 <p></p>
             </div>
             <p></p>
             <div class="col-md-6">
                 <label for="toma">Toma:</label>
-                <input type="text" class="form-control" id="toma" name="toma" placeholder="Toma" >
+                <input type="text" class="form-control" id="toma" name="toma">
                 <p></p>
             </div>
             <p></p>
             <div class="col-md-6">
                 <label for="recomendaciones">Recomendaciones:</label>
-                <input type="text" class="form-control" id="recomendaciones" name="recomendaciones" placeholder="Recomendaciones">
+                <input type="text" class="form-control" id="recomendaciones" name="recomendaciones" >
                 <p></p>
             </div>
             <p></p>
             <div class="col-md-6">
                 <label for="microorganismos">Microorganismos:</label>
-                <input type="text" class="form-control" id="microorganismos" name="microorganismos" placeholder="Microorganismos">
+                <input type="text" class="form-control" id="microorganismos" name="microorganismos">
                 <p></p>
             </div>
             <p></p>
             <div class="col-md-6">
                 <label for="resultado">Resultado:</label>
-                <input type="text" class="form-control" id="resultado" name="resultado" placeholder="Resultado" >
+                <input type="text" class="form-control" id="resultado" name="resultado" >
             </div>
         </div>
     <?php else: ?>
@@ -220,32 +220,32 @@
             </div>
             <div class="col-md-6">
                 <label for="guardado">Guardado:</label>
-                <input type="text" class="form-control" id="guardado" name="guardado" placeholder="Guardado">
+                <input type="text" class="form-control" id="guardado" name="guardado">
                 <p></p>
             </div>
             <div class="col-md-6">
                 <label for="observacion_interna">Observación Interna:</label>
-                <input type="text" class="form-control" id="observacion_interna" name="observacion_interna" placeholder="Observación Interna">
+                <input type="text" class="form-control" id="observacion_interna" name="observacion_interna">
                 <p></p>
             </div>
             <div class="col-md-6">
                 <label for="recibe">Recibe:</label>
-                <input type="text" class="form-control" id="recibe" name="recibe" placeholder="Recibe" >
+                <input type="text" class="form-control" id="recibe" name="recibe">
                 <p></p>
             </div>
             <div class="col-md-6">
                 <label for="tacos">Tacos:</label>
-                <input type="text" class="form-control" id="tacos" name="tacos" placeholder="Tacos" >
+                <input type="text" class="form-control" id="tacos" name="tacos">
                 <p></p>
             </div>
             <div class="col-md-6">
                 <label for="diagnostico_presuntivo">Diagnóstico:</label>
-                <input type="text" class="form-control" id="diagnostico_presuntivo" name="diagnostico_presuntivo" placeholder="Diagnóstico" >
+                <input type="text" class="form-control" id="diagnostico_presuntivo" name="diagnostico_presuntivo">
                 <p></p>
             </div>
             <div class="col-md-6">
                 <label for="tecnicas">Técnicas:</label>
-                <input type="text" class="form-control" id="tecnicas" name="tecnicas" placeholder="Técnicas" >
+                <input type="text" class="form-control" id="tecnicas" name="tecnicas">
                 <p></p>
             </div>
             <!--div class="col-md-6">
