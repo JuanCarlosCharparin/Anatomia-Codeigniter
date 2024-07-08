@@ -107,7 +107,7 @@
 $(document).ready(function () {
     // Delegar el evento click al documento para el botón #saveChanges
     $(document).on('click', '#saveChanges', function() {
-        var formData = $('#editEstudioForm').serialize(); // Serializa los datos del formulario
+        var formData = $('#editEstudioForm').serialize();
         $.ajax({
             url: '<?php echo base_url(); ?>mantenimiento/Biopsia/adjuntarDetalle',
             type: 'POST',
@@ -115,9 +115,20 @@ $(document).ready(function () {
             success: function(response) {
                 var data = JSON.parse(response);
                 if (data.success) {
-                    alert('Datos actualizados exitosamente');
-                    $('#editModal').modal('hide'); // Cierra el modal
-                    location.reload(); // Recarga la página para reflejar los cambios
+                    // Guardar una bandera indicando que los datos han sido guardados
+                    localStorage.setItem('isDataSaved_' + $('#n_servicio').val(), true);
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Datos actualizados!',
+                        text: '¡Datos actualizados para el número de servicio ' + n_servicio + '!',
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'Aceptar',
+                        timer: 3000, 
+                    }).then((result) => {
+                        $('#editModal').modal('hide');
+                        window.location.href = window.location.href; // Redireccionar a la misma página
+                    });
                 } else {
                     alert('Error al actualizar los datos');
                 }
@@ -128,23 +139,26 @@ $(document).ready(function () {
         });
     });
 
-    // Manejar el evento click para abrir el modal
     $('.btn-edit').on('click', function () {
         let n_servicio = $(this).data('n_servicio');
-        console.log('Clic en botón editar, n_servicio:', n_servicio);
         $.ajax({
             url: '<?php echo base_url(); ?>mantenimiento/Biopsia/getEditModalContent/' + n_servicio,
             type: 'GET',
             dataType: 'json',
             success: function (response) {
-                console.log('Respuesta del servidor:', response);
                 if (response.html) {
                     $('#editModal .modal-body').html(response.html);
                     $('#editModal').modal('show');
+                    
+                    // Verificar si los datos han sido guardados antes
+                    if (localStorage.getItem('isDataSaved_' + n_servicio)) {
+                        // Deshabilitar todos los campos de entrada y estilizar como grisáceo
+                        $('#editModal .modal-body input, #editModal .modal-body textarea, #limpiarDatos').prop('disabled', true).css('background-color', '#e9ecef');
+                    }
                 } 
             },
             error: function (xhr, status, error) {
-                console.error('AJAX error:', status, error);
+                console.error('Error en la petición AJAX:', status, error);
                 console.error('Response:', xhr.responseText);
             }
         });

@@ -74,10 +74,10 @@ class Estudio_model extends CI_Model {
                 INNER JOIN personal per ON e.personal_id = per.id
                 INNER JOIN profesional prof ON e.profesional_id = prof.id 
                 WHERE 1=1";
-    
+        
         $params = array();
         $where_clause = ""; // Inicializar la cláusula WHERE
-    
+        
         // Agregar condiciones según los filtros recibidos
         if (!empty($filtros['n_servicio'])) {
             $where_clause .= " AND e.nro_servicio = ?";
@@ -96,30 +96,30 @@ class Estudio_model extends CI_Model {
             $where_clause .= " AND CONCAT(per.nombres, ' ', per.apellidos) LIKE ?";
             $params[] = '%' . $filtros['paciente'] . '%';
         }
-
         if (!empty($filtros['obra_social'])) {
             $where_clause .= " AND per.obra_social LIKE ?";
             $params[] = '%' . $filtros['obra_social'] . '%';
         }
-
         if (!empty($filtros['fecha_carga'])) {
-            $where_clause .= " AND e.fecha_carga LIKE ? ORDER BY e.nro_servicio";
+            $where_clause .= " AND e.fecha_carga LIKE ?";
             $params[] = '%' . $filtros['fecha_carga'] . '%';
         }
-
         if (!empty($filtros['profesional'])) {
             // Filtrar por nombres y apellidos concatenados
             $where_clause .= " AND CONCAT(prof.nombres, ' ', prof.apellidos) LIKE ?";
             $params[] = '%' . $filtros['profesional'] . '%';
         }
-    
+        
         // Agregar la cláusula WHERE al SQL si hay condiciones
         $sql .= $where_clause;
-    
+        
+        // Ordenar por nro_servicio de manera descendente
+        $sql .= " ORDER BY e.nro_servicio DESC";
+        
         // Imprimir la consulta para depuración
         log_message('debug', 'Consulta SQL depurada: ' . $sql);
         log_message('debug', 'Parámetros: ' . print_r($params, true));
-    
+        
         // Ejecutar consulta
         $query = $this->db2->query($sql, $params);
         return $query->result_array();

@@ -69,11 +69,6 @@
                 <option value="4" <?= $estudio['tipo_estudio_id'] == 4 ? 'selected' : '' ?>>Intraoperatorio</option>
             </select>
         </div>
-        <div class="col-md-6">
-            <label for="material" class="form-label">Material:</label>
-            <?= $estudio['material']; ?>
-        </div>
-        
         
     </div>
     <p></p>
@@ -87,13 +82,22 @@
         <div class="col-md-6">
             <label for="fecha_carga" class="form-label">Fecha de carga:</label>
             <input type="text" class="form-control" id="fecha_carga" name="fecha_carga" value="<?= $estudio['fecha_carga'] ?>">
+            <p></p>
         </div>
+
+        
     </div>
 
     <div class="row mb-3">
         <div class="col-md-6">
             <label for="estado" class="form-label">Estado:</label>
             <input type="text" class="form-control" id="estado" name="estado" value="<?= $estudio['estado'] ?>">
+        </div>
+
+        <div class="col-md-6">
+            <p></p>
+            <label for="material" class="form-label">Material:</label>
+            <?= $estudio['material']; ?>
         </div>
     </div>
     <p></p>
