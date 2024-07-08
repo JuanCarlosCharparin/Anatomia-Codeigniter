@@ -138,45 +138,29 @@ class Biopsia_model extends CI_Model {
         return $this->db2->insert('detalle_estudio', $data);
     }
 
-    /*public function actualizarDetalleId($n_servicio, $detalle_estudio_id) {
-        if ($detalle_estudio_id !== null) {
-            $data = array('detalle_estudio_id' => $detalle_estudio_id);
-        } else {
-            return false; 
-        }
-    
+    public function actualizarDetalleId($n_servicio, $detalle_estudio_id) {
+        $data = array('detalle_estudio_id' => $detalle_estudio_id);
         $this->db2->where('nro_servicio', $n_servicio);
         $this->db2->update('estudio', $data);
-    
         return $this->db2->affected_rows() > 0;
     }
 
     public function actualizarPapId($n_servicio, $detalle_pap_id) {
-        if ($detalle_pap_id !== null) {
-            $data = array('detalle_pap_id' => $detalle_pap_id);
-        } else {
-            return false; 
-        }
-
+        $data = array('detalle_pap_id' => $detalle_pap_id);
         $this->db2->where('nro_servicio', $n_servicio);
         $this->db2->update('estudio', $data);
-    
         return $this->db2->affected_rows() > 0;
-    }
-
-    public function ultimoDetalleInsertado() {
-        // Consulta el último registro insertado en la tabla detalle_estudio
-        $sql = "SELECT id FROM detalle_estudio ORDER BY id DESC LIMIT 1";
-        $query = $this->db2->query($sql);
-        return $query->row(); 
     }
 
     public function ultimoPapInsertado() {
         // Consulta el último registro insertado en la tabla detalle_estudio
-        $sql = "SELECT id FROM detalle_pap ORDER BY id DESC LIMIT 1";
-        $query = $this->db2->query($sql);
-        return $query->row(); 
-    }*/
+        return $this->db2->insert_id();
+    }
+
+    public function ultimoDetalleInsertado() {
+        // Consulta el último registro insertado en la tabla detalle_estudio
+        return $this->db2->insert_id();
+    }
 
 
 }

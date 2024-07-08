@@ -106,16 +106,11 @@ class Biopsia extends CI_Controller {
                 );
     
                 $result = $this->Biopsia_model->insertar_pap($data_pap);
+                $detalle_pap_id = $this->Biopsia_model->ultimoPapInsertado();
+
+                // Actualizar el registro de estudio con el detalle_pap_id
+                $result_pap = $this->Biopsia_model->actualizarPapId($n_servicio, $detalle_pap_id);
                 
-    
-                /*if ($result) {
-                    $detalle_pap_id = $this->db2->insert_id();
-                    echo "El ID del último registro insertado es: " . $detalle_pap_id;
-                } else {
-                    echo "Error en la inserción.";
-                }*/
-                
-            
             
             } else {
                 $data_detalle = array(
@@ -135,18 +130,14 @@ class Biopsia extends CI_Controller {
                 );
 
                 $result = $this->Biopsia_model->insertar_detalle($data_detalle);
-                /*$this->db2->trans_start(); // Iniciar transacción
 
-                // Obtener el ID del detalle insertado
-                $detalle_estudio_id = $this->db2->insert_id();
+                $detalle_estudio_id = $this->Biopsia_model->ultimoDetalleInsertado();
 
-                echo "El ID del último registro insertado es: " . $detalle_estudio_id;
-
-                // Actualizar tabla estudio con detalle_estudio_id
-                $result_detalle = $this->Biopsia_model->actualizarDetalleId($n_servicio, $detalle_estudio_id, null);
-
-                $this->db2->trans_complete(); // Completar transacción*/
+            // Actualizar el registro de estudio con el detalle_estudio_id
+                $result_detalle = $this->Biopsia_model->actualizarDetalleId($n_servicio, $detalle_estudio_id);
+                
             }
+
     
             if ($result) {
                 echo json_encode(['success' => true]);
@@ -156,6 +147,9 @@ class Biopsia extends CI_Controller {
         } catch (Exception $e) {
             echo json_encode(['success' => false, 'error' => 'Ocurrió un error al adjuntar el detalle: ' . $e->getMessage()]);
         }
+
+
+        
     }
     
 
