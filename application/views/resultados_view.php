@@ -115,8 +115,9 @@ $(document).ready(function () {
             success: function(response) {
                 var data = JSON.parse(response);
                 if (data.success) {
+                    var n_servicio = $('#n_servicio').val(); // Obtener el número de servicio
                     // Guardar una bandera indicando que los datos han sido guardados
-                    localStorage.setItem('isDataSaved_' + $('#n_servicio').val(), true);
+                    localStorage.setItem('isDataSaved_' + n_servicio, true);
 
                     Swal.fire({
                         icon: 'success',
@@ -124,7 +125,7 @@ $(document).ready(function () {
                         text: '¡Datos actualizados para el número de servicio ' + n_servicio + '!',
                         confirmButtonColor: '#3085d6',
                         confirmButtonText: 'Aceptar',
-                        timer: 3000, 
+                        timer: 3000,
                     }).then((result) => {
                         $('#editModal').modal('hide');
                         window.location.href = window.location.href; // Redireccionar a la misma página
@@ -168,8 +169,10 @@ $(document).ready(function () {
         var tipoEstudio = $('#tipo_estudio').val();
         if (tipoEstudio === 'Biopsia') {
             $('#detalle_estudio').show();
+            $('#pap_estudio').hide(); // Ocultar otro detalle si es necesario
         } else {
-            $('#pap_estudio').hide();
+            $('#detalle_estudio').hide();
+            $('#pap_estudio').show(); // Mostrar otro detalle si es necesario
         }
     }
     toggleDetalle(); // Inicializar visibilidad de los campos
@@ -180,27 +183,39 @@ $(document).ready(function () {
     // Función para guardar datos en localStorage
     function guardarDatos(n_servicio) {
         var tipoEstudio = $('#tipo_estudio').text().trim();
-
-        // Prefijo para identificar los datos en localStorage por n_servicio
         var prefix = 'datos_' + n_servicio + '_';
+
+        // Obtener los datos existentes de localStorage si los hay
+        var savedData = localStorage.getItem(prefix + 'data');
+        var dataToSave = {};
+
+        if (savedData) {
+            dataToSave = JSON.parse(savedData);
+        }
+
+        // Función para guardar el valor de un select2 en localStorage
+        function guardarSelect2(key, selector) {
+            var selectedOptions = $(selector).val(); // Obtener valores seleccionados como array
+            dataToSave[key] = selectedOptions; // Almacenar en el objeto
+        }
 
         // Guardar datos según el tipo de estudio
         if (tipoEstudio === 'Pap') {
-            localStorage.setItem(prefix + 'estado_especimen', $('#estado_especimen').val());
-            localStorage.setItem(prefix + 'celulas_pavimentosas', $('#celulas_pavimentosas').val());
-            localStorage.setItem(prefix + 'celulas_cilindricas', $('#celulas_cilindricas').val());
-            localStorage.setItem(prefix + 'valor_hormonal', $('#valor_hormonal').val());
-            localStorage.setItem(prefix + 'fecha_lectura', $('#fecha_lectura').val());
-            localStorage.setItem(prefix + 'valor_hormonal_HC', $('#valor_hormonal_HC').val());
-            localStorage.setItem(prefix + 'cambios_reactivos', $('#cambios_reactivos').val());
-            localStorage.setItem(prefix + 'cambios_asoc_celula_pavimentosa', $('#cambios_asoc_celula_pavimentosa').val());
-            localStorage.setItem(prefix + 'cambios_celula_glandulares', $('#cambios_celula_glandulares').val());
-            localStorage.setItem(prefix + 'celula_metaplastica', $('#celula_metaplastica').val());
-            localStorage.setItem(prefix + 'otras_neo_malignas', $('#otras_neo_malignas').val());
-            localStorage.setItem(prefix + 'toma', $('#toma').val());
-            localStorage.setItem(prefix + 'recomendaciones', $('#recomendaciones').val());
-            localStorage.setItem(prefix + 'microorganismos', $('#microorganismos').val());
-            localStorage.setItem(prefix + 'resultado', $('#resultado').val());
+            guardarSelect2('estado_especimen', '#estado_especimen');
+            guardarSelect2('celulas_pavimentosas', '#celulas_pavimentosas');
+            guardarSelect2('celulas_cilindricas', '#celulas_cilindricas');
+            guardarSelect2('valor_hormonal', '#valor_hormonal');
+            guardarSelect2('fecha_lectura', '#fecha_lectura');
+            guardarSelect2('valor_hormonal_HC', '#valor_hormonal_HC');
+            guardarSelect2('cambios_reactivos', '#cambios_reactivos');
+            guardarSelect2('cambios_asoc_celula_pavimentosa', '#cambios_asoc_celula_pavimentosa');
+            guardarSelect2('cambios_celula_glandulares', '#cambios_celula_glandulares');
+            guardarSelect2('celula_metaplastica', '#celula_metaplastica');
+            guardarSelect2('otras_neo_malignas', '#otras_neo_malignas');
+            guardarSelect2('toma', '#toma');
+            guardarSelect2('recomendaciones', '#recomendaciones');
+            guardarSelect2('microorganismos', '#microorganismos');
+            guardarSelect2('resultado', '#resultado');
         } else {
             localStorage.setItem(prefix + 'macro', $('#macro').val());
             localStorage.setItem(prefix + 'micro', $('#micro').val());
@@ -214,126 +229,68 @@ $(document).ready(function () {
             localStorage.setItem(prefix + 'diagnostico_presuntivo', $('#diagnostico_presuntivo').val());
             localStorage.setItem(prefix + 'tecnicas', $('#tecnicas').val());
         }
+
+        // Guardar el objeto completo actualizado en localStorage
+        localStorage.setItem(prefix + 'data', JSON.stringify(dataToSave));
     }
 
     // Función para cargar datos desde localStorage
     function cargarDatos(n_servicio) {
         var tipoEstudio = $('#tipo_estudio').text().trim();
-
-        // Prefijo para identificar los datos en localStorage por n_servicio
         var prefix = 'datos_' + n_servicio + '_';
 
-        // Cargar datos según el tipo de estudio
-        if (tipoEstudio === 'Pap') {
-            $('#estado_especimen').val(localStorage.getItem(prefix + 'estado_especimen') || '');
-            $('#celulas_pavimentosas').val(localStorage.getItem(prefix + 'celulas_pavimentosas') || '');
-            $('#celulas_cilindricas').val(localStorage.getItem(prefix + 'celulas_cilindricas') || '');
-            $('#valor_hormonal').val(localStorage.getItem(prefix + 'valor_hormonal') || '');
-            $('#fecha_lectura').val(localStorage.getItem(prefix + 'fecha_lectura') || '');
-            $('#valor_hormonal_HC').val(localStorage.getItem(prefix + 'valor_hormonal_HC') || '');
-            $('#cambios_reactivos').val(localStorage.getItem(prefix + 'cambios_reactivos') || '');
-            $('#cambios_asoc_celula_pavimentosa').val(localStorage.getItem(prefix + 'cambios_asoc_celula_pavimentosa') || '');
-            $('#cambios_celula_glandulares').val(localStorage.getItem(prefix + 'cambios_celula_glandulares') || '');
-            $('#celula_metaplastica').val(localStorage.getItem(prefix + 'celula_metaplastica') || '');
-            $('#otras_neo_malignas').val(localStorage.getItem(prefix + 'otras_neo_malignas') || '');
-            $('#toma').val(localStorage.getItem(prefix + 'toma') || '');
-            $('#recomendaciones').val(localStorage.getItem(prefix + 'recomendaciones') || '');
-            $('#microorganismos').val(localStorage.getItem(prefix + 'microorganismos') || '');
-            $('#resultado').val(localStorage.getItem(prefix + 'resultado') || '');
-        } else {
-            $('#macro').val(localStorage.getItem(prefix + 'macro') || '');
-            $('#micro').val(localStorage.getItem(prefix + 'micro') || '');
-            $('#conclusion').val(localStorage.getItem(prefix + 'conclusion') || '');
-            $('#observacion').val(localStorage.getItem(prefix + 'observacion') || '');
-            $('#maligno').val(localStorage.getItem(prefix + 'maligno') || '');
-            $('#guardado').val(localStorage.getItem(prefix + 'guardado') || '');
-            $('#observacion_interna').val(localStorage.getItem(prefix + 'observacion_interna') || '');
-            $('#recibe').val(localStorage.getItem(prefix + 'recibe') || '');
-            $('#tacos').val(localStorage.getItem(prefix + 'tacos') || '');
-            $('#diagnostico_presuntivo').val(localStorage.getItem(prefix + 'diagnostico_presuntivo') || '');
-            $('#tecnicas').val(localStorage.getItem(prefix + 'tecnicas') || '');
+        // Obtener los datos guardados como objeto desde localStorage
+        var savedData = localStorage.getItem(prefix + 'data');
+        if (savedData) {
+            var dataToLoad = JSON.parse(savedData);
+
+            // Función para cargar el valor de un select2 desde el objeto
+            function cargarSelect2(key, selector) {
+                var selectedOptions = dataToLoad[key]; // Obtener valores guardados
+                if (selectedOptions) {
+                    $(selector).val(selectedOptions).trigger('change'); // Establecer opciones seleccionadas y actualizar select2
+                }
+            }
+
+            // Cargar datos según el tipo de estudio
+            if (tipoEstudio === 'Pap') {
+                cargarSelect2('estado_especimen', '#estado_especimen');
+                cargarSelect2('celulas_pavimentosas', '#celulas_pavimentosas');
+                cargarSelect2('celulas_cilindricas', '#celulas_cilindricas');
+                cargarSelect2('valor_hormonal', '#valor_hormonal');
+                cargarSelect2('fecha_lectura', '#fecha_lectura');
+                cargarSelect2('valor_hormonal_HC', '#valor_hormonal_HC');
+                cargarSelect2('cambios_reactivos', '#cambios_reactivos');
+                cargarSelect2('cambios_asoc_celula_pavimentosa', '#cambios_asoc_celula_pavimentosa');
+                cargarSelect2('cambios_celula_glandulares', '#cambios_celula_glandulares');
+                cargarSelect2('celula_metaplastica', '#celula_metaplastica');
+                cargarSelect2('otras_neo_malignas', '#otras_neo_malignas');
+                cargarSelect2('toma', '#toma');
+                cargarSelect2('recomendaciones', '#recomendaciones');
+                cargarSelect2('microorganismos', '#microorganismos');
+                cargarSelect2('resultado', '#resultado');
+            } else {
+                $('#macro').val(localStorage.getItem(prefix + 'macro') || '');
+                $('#micro').val(localStorage.getItem(prefix + 'micro') || '');
+                $('#conclusion').val(localStorage.getItem(prefix + 'conclusion') || '');
+                $('#observacion').val(localStorage.getItem(prefix + 'observacion') || '');
+                $('#maligno').val(localStorage.getItem(prefix + 'maligno') || '');
+                $('#guardado').val(localStorage.getItem(prefix + 'guardado') || '');
+                $('#observacion_interna').val(localStorage.getItem(prefix + 'observacion_interna') || '');
+                $('#recibe').val(localStorage.getItem(prefix + 'recibe') || '');
+                $('#tacos').val(localStorage.getItem(prefix + 'tacos') || '');
+                $('#diagnostico_presuntivo').val(localStorage.getItem(prefix + 'diagnostico_presuntivo') || '');
+                $('#tecnicas').val(localStorage.getItem(prefix + 'tecnicas') || '');
+            }
         }
     }
-
-    function limpiarDatos(n_servicio) {
-        var tipoEstudio = $('#tipo_estudio').text().trim();
-
-        // Prefijo para identificar los datos en localStorage por n_servicio
-        var prefix = 'datos_' + n_servicio + '_';
-
-        // Eliminar datos según el tipo de estudio
-        if (tipoEstudio === 'Pap') {
-            localStorage.removeItem(prefix + 'estado_especimen');
-            localStorage.removeItem(prefix + 'celulas_pavimentosas');
-            localStorage.removeItem(prefix + 'celulas_cilindricas');
-            localStorage.removeItem(prefix + 'valor_hormonal');
-            localStorage.removeItem(prefix + 'fecha_lectura');
-            localStorage.removeItem(prefix + 'valor_hormonal_HC');
-            localStorage.removeItem(prefix + 'cambios_reactivos');
-            localStorage.removeItem(prefix + 'cambios_asoc_celula_pavimentosa');
-            localStorage.removeItem(prefix + 'cambios_celula_glandulares');
-            localStorage.removeItem(prefix + 'celula_metaplastica');
-            localStorage.removeItem(prefix + 'otras_neo_malignas');
-            localStorage.removeItem(prefix + 'toma');
-            localStorage.removeItem(prefix + 'recomendaciones');
-            localStorage.removeItem(prefix + 'microorganismos');
-            localStorage.removeItem(prefix + 'resultado');
-        } else {
-            localStorage.removeItem(prefix + 'macro');
-            localStorage.removeItem(prefix + 'micro');
-            localStorage.removeItem(prefix + 'conclusion');
-            localStorage.removeItem(prefix + 'observacion');
-            localStorage.removeItem(prefix + 'maligno');
-            localStorage.removeItem(prefix + 'guardado');
-            localStorage.removeItem(prefix + 'observacion_interna');
-            localStorage.removeItem(prefix + 'recibe');
-            localStorage.removeItem(prefix + 'tacos');
-            localStorage.removeItem(prefix + 'diagnostico_presuntivo');
-            localStorage.removeItem(prefix + 'tecnicas');
-        }
-
-        // Limpiar los valores en los campos del formulario
-        $('#estado_especimen').val('');
-        $('#celulas_pavimentosas').val('');
-        $('#celulas_cilindricas').val('');
-        $('#valor_hormonal').val('');
-        $('#fecha_lectura').val('');
-        $('#valor_hormonal_HC').val('');
-        $('#cambios_reactivos').val('');
-        $('#cambios_asoc_celula_pavimentosa').val('');
-        $('#cambios_celula_glandulares').val('');
-        $('#celula_metaplastica').val('');
-        $('#otras_neo_malignas').val('');
-        $('#toma').val('');
-        $('#recomendaciones').val('');
-        $('#microorganismos').val('');
-        $('#resultado').val('');
-        $('#macro').val('');
-        $('#micro').val('');
-        $('#conclusion').val('');
-        $('#observacion').val('');
-        $('#maligno').val('');
-        $('#guardado').val('');
-        $('#observacion_interna').val('');
-        $('#recibe').val('');
-        $('#tacos').val('');
-        $('#diagnostico_presuntivo').val('');
-        $('#tecnicas').val('');
-    }
-
-    // Llamada para cargar datos cuando se abre el modal
-    $('#editModal').on('shown.bs.modal', function() {
-        var n_servicio = $('#n_servicio').val(); 
-        console.log('n_servicio:', n_servicio); 
-        cargarDatos(n_servicio);
-    });
 
     // Evento al hacer clic en el botón Actualizar
     $('#actualizarDatos').on('click', function() {
         var n_servicio = $('#n_servicio').val(); 
         
-        guardarDatos(n_servicio);
-
+        guardarDatos(n_servicio); // Guardar datos en localStorage
+        
         Swal.fire({
             icon: 'success',
             title: '¡Datos actualizados!',
@@ -344,24 +301,16 @@ $(document).ready(function () {
         });
     });
 
-    // Evento al hacer clic en el botón Limpiar
-    $('#limpiarDatos').on('click', function() {
-        var n_servicio = $('#n_servicio').val(); // Obtener el valor de n_servicio
-        console.log('Limpiando datos para el número de servicio:', n_servicio); // Agregar para depuración
-        limpiarDatos(n_servicio);
-        
-        Swal.fire({
-            icon: 'success',
-            title: '¡Datos limpiados!',
-            text: '¡Datos limpiados para el número de servicio ' + n_servicio + '!',
-            confirmButtonColor: '#3085d6',
-            confirmButtonText: 'Aceptar',
-            timer: 3000, 
-        });
+    // Llamada para cargar datos cuando se abre el modal
+    $('#editModal').on('shown.bs.modal', function() {
+        var n_servicio = $('#n_servicio').val(); 
+        cargarDatos(n_servicio); // Cargar datos desde localStorage al abrir el modal
     });
+
 
 });
 </script>
+
 
 
 

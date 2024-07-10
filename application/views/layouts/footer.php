@@ -31,6 +31,9 @@
 <!-- Incluir SweetAlerts desde una CDN -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
+<!-- Incluir JavaScript de Select2 -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 
 <!-- Inicialización de scripts -->
 <script>
