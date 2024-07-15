@@ -164,5 +164,36 @@ class Biopsia extends CI_Controller {
         }
     }
 
+    // Método para cambiar de estado creado a informando
+    public function modificarEstado($n_servicio) {
+        try {
+            $nuevo_estado = 'informando';
+            // Lógica para cambiar el estado del estudio
+            $this->load->model('Biopsia_model');
+            $this->Biopsia_model->cambiarEstado($n_servicio, $nuevo_estado);
+    
+            // Retornar respuesta JSON al cliente
+            echo json_encode(array('success' => true));
+        } catch (Exception $e) {
+            // Manejo de excepciones
+            echo json_encode(array('success' => false, 'error' => $e->getMessage()));
+        }
+    }
+
+    public function modificarEstadoFinalizado($n_servicio) {
+        try {
+            $nuevo_estado_finalizado = 'finalizado';
+            // Lógica para cambiar el estado del estudio
+            $this->load->model('Biopsia_model');
+            $this->Biopsia_model->cambiarEstadoFinalizado($n_servicio, $nuevo_estado_finalizado);
+    
+            // Retornar respuesta JSON al cliente
+            echo json_encode(array('success' => true));
+        } catch (Exception $e) {
+            // Manejo de excepciones
+            echo json_encode(array('success' => false, 'error' => $e->getMessage()));
+        }
+    }
+
 }
     

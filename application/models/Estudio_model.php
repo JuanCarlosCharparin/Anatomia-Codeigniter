@@ -109,6 +109,11 @@ class Estudio_model extends CI_Model {
             $where_clause .= " AND CONCAT(prof.nombres, ' ', prof.apellidos) LIKE ?";
             $params[] = '%' . $filtros['profesional'] . '%';
         }
+        if (!empty($filtros['estado'])) {
+            // Filtrar por nombres y apellidos concatenados
+            $where_clause .= " AND e.estado_estudio LIKE ?";
+            $params[] = '%' . $filtros['estado'] . '%';
+        }
         
         // Agregar la cláusula WHERE al SQL si hay condiciones
         $sql .= $where_clause;

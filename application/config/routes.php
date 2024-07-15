@@ -16,6 +16,9 @@ $route['translate_uri_dashes'] = FALSE;
 //Ajax
 
 $route['mantenimiento/biopsia/getEditModalContent/(:any)'] = 'biopsia/getEditModalContent/$1';
+$route['mantenimiento/biopsia/modificarEstado/(:num)'] = 'biopsia/modificarEstado/$1';
+
+
 
 
 

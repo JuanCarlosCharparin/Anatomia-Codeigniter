@@ -89,47 +89,6 @@ class Biopsia_model extends CI_Model {
         return $query->result_array(); 
     }
 
-
-    /*public function actualizarEstudio($nro_servicio, $data) {
-        
-        $sql_actualizar = "UPDATE estudio e
-                           INNER JOIN servicio s ON e.servicio_id = s.id
-                           INNER JOIN tipo_de_estudio tde ON e.tipo_estudio_id = tde.id
-                           INNER JOIN detalle_estudio dt ON e.detalle_estudio_id = dt.id
-                           INNER JOIN personal ps ON e.personal_id = ps.id
-                           SET s.nombre_servicio = ?,
-                               tde.nombre = ?,
-                               e.diagnostico = ?,
-                               e.fecha_carga = ?,
-                               e.estado_estudio = ?,
-                               dt.macro = ?
-                           WHERE e.nro_servicio = ?";
-
-       
-        $params = [
-            $data['servicio'],
-            $data['tipo_estudio'],
-            $data['diagnostico'],
-            $data['fecha_carga'],
-            $data['estado_estudio'],
-            $data['macro'],
-            /*$data['profesional_salutte_id'], // Agregado el profesional_salutte_id
-            $data['macro'],                  // Asumiendo que 'macro' viene en $data
-            $data['micro'],                  // Asumiendo que 'micro' viene en $data
-            $data['conclusion'],             // Asumiendo que 'conclusion' viene en $data
-            $data['observacion'],            // Asumiendo que 'observacion' viene en $data
-            $data['observacion_interna'],*/
-           // $nro_servicio
-        //];
-
-        /*
-        $query = $this->db2->query($sql_actualizar, $params);
-
-        // Retornar el resultado de la ejecución
-        return $query;
-
-    }*/
-
     public function insertar_pap($data_pap) {
         return $this->db2->insert('detalle_pap', $data_pap);
     }
@@ -160,6 +119,31 @@ class Biopsia_model extends CI_Model {
     public function ultimoDetalleInsertado() {
         // Consulta el último registro insertado en la tabla detalle_estudio
         return $this->db2->insert_id();
+    }
+
+
+    public function cambiarEstado($n_servicio, $nuevo_estado) {
+        $data = array(
+            'estado_estudio' => $nuevo_estado
+        );
+
+        $this->db2->where('nro_servicio', $n_servicio);
+        $this->db2->update('estudio', $data);
+
+        return $this->db2->affected_rows() > 0; // Retorna true si se actualizó al menos una fila
+    }
+
+    
+
+    public function cambiarEstadoFinalizado($n_servicio, $nuevo_estado_finalizado) {
+        $data = array(
+            'estado_estudio' => $nuevo_estado_finalizado
+        );
+
+        $this->db2->where('nro_servicio', $n_servicio);
+        $this->db2->update('estudio', $data);
+
+        return $this->db2->affected_rows() > 0; // Retorna true si se actualizó al menos una fila
     }
 
 

@@ -117,11 +117,11 @@ $(document).ready(function () {
                 if (data.success) {
                     var n_servicio = $('#n_servicio').val(); // Obtener el número de servicio
                     localStorage.setItem('isDataSaved_' + n_servicio, true); // Indicar que los datos han sido guardados de forma irreversible
-
+                    cambiarEstadoEstudioFinalizado(n_servicio)
                     Swal.fire({
                         icon: 'success',
                         title: '¡Datos guardados!',
-                        text: '¡Datos actualizados para el número de servicio ' + n_servicio + '!',
+                        text: '¡Datos guardados para el número de servicio ' + n_servicio + '!',
                         confirmButtonColor: '#3085d6',
                         confirmButtonText: 'Aceptar',
                         timer: 3000,
@@ -296,6 +296,7 @@ $(document).ready(function () {
         var n_servicio = $('#n_servicio').val(); 
         
         guardarDatos(n_servicio); // Guardar datos en localStorage
+        cambiarEstadoEstudio(n_servicio);
         
         Swal.fire({
             icon: 'success',
@@ -312,6 +313,53 @@ $(document).ready(function () {
         var n_servicio = $('#n_servicio').val(); 
         cargarDatos(n_servicio); // Cargar datos desde localStorage al abrir el modal
     });
+
+    function cambiarEstadoEstudio(n_servicio) {
+        $.ajax({
+            url: '<?php echo base_url(); ?>mantenimiento/Biopsia/modificarEstado/' + n_servicio,
+            type: 'GET',
+            data: { nuevo_estado: 'informando' }, // Aquí puedes ajustar el nuevo estado si es dinámico
+            success: function(response) {
+                console.log('Estado del estudio cambiado a informando');
+                // Puedes agregar aquí más acciones después de actualizar el estado, como cerrar el modal o actualizar la interfaz.
+            },
+            error: function(xhr, status, error) {
+                console.error('Error al cambiar el estado del estudio:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Hubo un error al intentar actualizar los datos.',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'Aceptar',
+                });
+            }
+        });
+    }
+
+    function cambiarEstadoEstudioFinalizado(n_servicio) {
+        $.ajax({
+            url: '<?php echo base_url(); ?>mantenimiento/Biopsia/modificarEstadoFinalizado/' + n_servicio,
+            type: 'GET',
+            data: { nuevo_estado_finalizado: 'finalizado' }, // Aquí puedes ajustar el nuevo estado si es dinámico
+            success: function(response) {
+                console.log('Estado del estudio cambiado a finalizado');
+                // Puedes agregar aquí más acciones después de actualizar el estado, como cerrar el modal o actualizar la interfaz.
+            },
+            error: function(xhr, status, error) {
+                console.error('Error al cambiar el estado del estudio:', error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Hubo un error al intentar actualizar los datos.',
+                    confirmButtonColor: '#3085d6',
+                    confirmButtonText: 'Aceptar',
+                });
+            }
+        });
+    }
+
+
+
 
 
 });

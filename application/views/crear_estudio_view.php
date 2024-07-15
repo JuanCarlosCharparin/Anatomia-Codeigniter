@@ -1,6 +1,3 @@
-<!-- =============================================== -->
-<!-- Content Wrapper. Contains page content -->
-
 <div class="content-wrapper">
     <section class="content">
         <div class="box box-solid">
@@ -95,9 +92,6 @@
                         </select>
                     </div>
 
-                    
-
-                    
                     <div class="form-group">
                         <label for="tipo_estudio">Seleccione un tipo de estudio:</label>
                         <select id="tipo_estudio" name="tipo_estudio" required>
@@ -135,10 +129,8 @@
                         </div>
                     </div>
 
-                
-                   
                     <!-- Otros campos que necesites -->
-                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <button type="button" id="submitForm" class="btn btn-primary">Crear Estudio</button>
                 </form>
             </div>
         </div>
@@ -180,6 +172,37 @@
                 }
             });
         });
+
+        // Submit del formulario usando AJAX
+        $('#submitForm').click(function(e) {
+            e.preventDefault();
+            $.ajax({
+                url: "<?php echo base_url('mantenimiento/CrearEstudio/guardar'); ?>",
+                method: "POST",
+                data: $('#crearEstudioForm').serialize(),
+                success: function(response) {
+                    // Mostrar alerta de éxito
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Estudio creado con exito!',
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'Aceptar',
+                        timer: 3000,
+                    });
+                    $('#crearEstudioModal').modal('hide'); // Opcional: cerrar el modal después de crear el estudio
+                },
+                error: function(xhr, status, error) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Estudio creado con exito!',
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'Aceptar',
+                        timer: 3000,
+                    });
+                    $('#crearEstudioModal').modal('hide'); 
+                }
+            });
+        });
     });
 
     function seleccionarPaciente(nombrePaciente) {
@@ -213,16 +236,13 @@
     });
 
     document.addEventListener("DOMContentLoaded", function() {
-    var today = new Date();
-    var dd = String(today.getDate()).padStart(2, '0');
-    var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
-    var yyyy = today.getFullYear();
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+        var yyyy = today.getFullYear();
 
-    today = yyyy + '-' + mm + '-' + dd;
-    document.getElementById('fecha').value = today;
+        today = yyyy + '-' + mm + '-' + dd;
+        document.getElementById('fecha').value = today;
     });
 
 </script>
-
-
-
