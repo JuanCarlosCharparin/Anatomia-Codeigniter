@@ -116,12 +116,11 @@ $(document).ready(function () {
                 var data = JSON.parse(response);
                 if (data.success) {
                     var n_servicio = $('#n_servicio').val(); // Obtener el número de servicio
-                    // Guardar una bandera indicando que los datos han sido guardados
-                    localStorage.setItem('isDataSaved_' + n_servicio, true);
+                    localStorage.setItem('isDataSaved_' + n_servicio, true); // Indicar que los datos han sido guardados de forma irreversible
 
                     Swal.fire({
                         icon: 'success',
-                        title: '¡Datos actualizados!',
+                        title: '¡Datos guardados!',
                         text: '¡Datos actualizados para el número de servicio ' + n_servicio + '!',
                         confirmButtonColor: '#3085d6',
                         confirmButtonText: 'Aceptar',
@@ -131,7 +130,7 @@ $(document).ready(function () {
                         window.location.href = window.location.href; // Redireccionar a la misma página
                     });
                 } else {
-                    alert('Error al actualizar los datos');
+                    alert('Error al guardar los datos');
                 }
             },
             error: function(xhr, status, error) {
@@ -140,30 +139,37 @@ $(document).ready(function () {
         });
     });
 
+    // Mostrar modal con datos cargados
     $('.btn-edit').on('click', function () {
-        let n_servicio = $(this).data('n_servicio');
-        $.ajax({
-            url: '<?php echo base_url(); ?>mantenimiento/Biopsia/getEditModalContent/' + n_servicio,
-            type: 'GET',
-            dataType: 'json',
-            success: function (response) {
-                if (response.html) {
-                    $('#editModal .modal-body').html(response.html);
-                    $('#editModal').modal('show');
-                    
-                    // Verificar si los datos han sido guardados antes
-                    if (localStorage.getItem('isDataSaved_' + n_servicio)) {
-                        // Deshabilitar todos los campos de entrada y estilizar como grisáceo
-                        $('#editModal .modal-body input, #editModal .modal-body textarea, #limpiarDatos').prop('disabled', true).css('background-color', '#e9ecef');
-                    }
-                } 
-            },
-            error: function (xhr, status, error) {
-                console.error('Error en la petición AJAX:', status, error);
-                console.error('Response:', xhr.responseText);
+    let n_servicio = $(this).data('n_servicio');
+    $.ajax({
+        url: '<?php echo base_url(); ?>mantenimiento/Biopsia/getEditModalContent/' + n_servicio,
+        type: 'GET',
+        dataType: 'json',
+        success: function (response) {
+            if (response.html) {
+                $('#editModal .modal-body').html(response.html);
+                $('#editModal').modal('show');
+
+                // Cargar datos desde localStorage
+                cargarDatos(n_servicio);
+
+                // Verificar si los datos han sido guardados de forma irreversible
+                if (localStorage.getItem('isDataSaved_' + n_servicio)) {
+                    // Deshabilitar todos los campos de entrada y estilizar como grisáceo
+                    $('#editModal .modal-body input, #editModal .modal-body textarea, #editModal .modal-body select, #limpiarDatos')
+                        .prop('disabled', true)
+                        .css('background-color', '#e9ecef');
+
+                    $('#editModal .modal-body .select2-container--default .select2-selection--single');
+                }
             }
-        });
+        },
+        error: function(xhr, status, error) {
+            console.error('Error en la petición AJAX:', error);
+        }
     });
+});
 
     function toggleDetalle() {
         var tipoEstudio = $('#tipo_estudio').val();
@@ -217,17 +223,17 @@ $(document).ready(function () {
             guardarSelect2('microorganismos', '#microorganismos');
             guardarSelect2('resultado', '#resultado');
         } else {
-            localStorage.setItem(prefix + 'macro', $('#macro').val());
-            localStorage.setItem(prefix + 'micro', $('#micro').val());
-            localStorage.setItem(prefix + 'conclusion', $('#conclusion').val());
-            localStorage.setItem(prefix + 'observacion', $('#observacion').val());
-            localStorage.setItem(prefix + 'maligno', $('#maligno').val());
-            localStorage.setItem(prefix + 'guardado', $('#guardado').val());
-            localStorage.setItem(prefix + 'observacion_interna', $('#observacion_interna').val());
-            localStorage.setItem(prefix + 'recibe', $('#recibe').val());
-            localStorage.setItem(prefix + 'tacos', $('#tacos').val());
-            localStorage.setItem(prefix + 'diagnostico_presuntivo', $('#diagnostico_presuntivo').val());
-            localStorage.setItem(prefix + 'tecnicas', $('#tecnicas').val());
+            dataToSave.macro = $('#macro').val();
+            dataToSave.micro = $('#micro').val();
+            dataToSave.conclusion = $('#conclusion').val();
+            dataToSave.observacion = $('#observacion').val();
+            dataToSave.maligno = $('#maligno').val();
+            dataToSave.guardado = $('#guardado').val();
+            dataToSave.observacion_interna = $('#observacion_interna').val();
+            dataToSave.recibe = $('#recibe').val();
+            dataToSave.tacos = $('#tacos').val();
+            dataToSave.diagnostico_presuntivo = $('#diagnostico_presuntivo').val();
+            dataToSave.tecnicas = $('#tecnicas').val();
         }
 
         // Guardar el objeto completo actualizado en localStorage
@@ -270,17 +276,17 @@ $(document).ready(function () {
                 cargarSelect2('microorganismos', '#microorganismos');
                 cargarSelect2('resultado', '#resultado');
             } else {
-                $('#macro').val(localStorage.getItem(prefix + 'macro') || '');
-                $('#micro').val(localStorage.getItem(prefix + 'micro') || '');
-                $('#conclusion').val(localStorage.getItem(prefix + 'conclusion') || '');
-                $('#observacion').val(localStorage.getItem(prefix + 'observacion') || '');
-                $('#maligno').val(localStorage.getItem(prefix + 'maligno') || '');
-                $('#guardado').val(localStorage.getItem(prefix + 'guardado') || '');
-                $('#observacion_interna').val(localStorage.getItem(prefix + 'observacion_interna') || '');
-                $('#recibe').val(localStorage.getItem(prefix + 'recibe') || '');
-                $('#tacos').val(localStorage.getItem(prefix + 'tacos') || '');
-                $('#diagnostico_presuntivo').val(localStorage.getItem(prefix + 'diagnostico_presuntivo') || '');
-                $('#tecnicas').val(localStorage.getItem(prefix + 'tecnicas') || '');
+                $('#macro').val(dataToLoad.macro || '');
+                $('#micro').val(dataToLoad.micro || '');
+                $('#conclusion').val(dataToLoad.conclusion || '');
+                $('#observacion').val(dataToLoad.observacion || '');
+                $('#maligno').val(dataToLoad.maligno || '');
+                $('#guardado').val(dataToLoad.guardado || '');
+                $('#observacion_interna').val(dataToLoad.observacion_interna || '');
+                $('#recibe').val(dataToLoad.recibe || '');
+                $('#tacos').val(dataToLoad.tacos || '');
+                $('#diagnostico_presuntivo').val(dataToLoad.diagnostico_presuntivo || '');
+                $('#tecnicas').val(dataToLoad.tecnicas || '');
             }
         }
     }
