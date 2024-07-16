@@ -22,3 +22,5 @@ $route['mantenimiento/biopsia/modificarEstado/(:num)'] = 'biopsia/modificarEstad
 
 
 
+
+
