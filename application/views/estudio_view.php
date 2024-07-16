@@ -64,6 +64,7 @@
                                 <div class="form-group col-md-4">
                                     <label for="estado">Estado:</label>
                                     <select id="estado" name="estado" class="form-control">
+                                        <option value="">Seleccionar un estado</option>
                                         <option value="Creado">Creado</option>
                                         <option value="Informando">Informando</option>
                                         <option value="Finalizado">Finalizado</option>

@@ -3,11 +3,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Usuarios_model extends CI_Model {
 
-	public function login($username, $password){
-        $this->db->where("username", $username);
-        $this->db->where("password", $password);
+    public function __construct() {
+        parent::__construct();
+        $this->db2 = $this->load->database('second_db', TRUE);
+    }
 
-        $resultados = $this->db->get("usuarios");
+	public function login($username, $password){
+        $this->db2->where("username", $username);
+        $this->db2->where("password", $password);
+
+        $resultados = $this->db2->get("usuario");
         if ($resultados->num_rows() > 0){
             return $resultados->row();
         }

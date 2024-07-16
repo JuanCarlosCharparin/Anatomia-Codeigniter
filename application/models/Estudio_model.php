@@ -82,37 +82,38 @@ class Estudio_model extends CI_Model {
         if (!empty($filtros['n_servicio'])) {
             $where_clause .= " AND e.nro_servicio = ?";
             $params[] = $filtros['n_servicio'];
-        }
-        if (!empty($filtros['servicio'])) {
-            $where_clause .= " AND s.nombre_servicio LIKE ?";
-            $params[] = '%' . $filtros['servicio'] . '%';
-        }
-        if (!empty($filtros['tipo_estudio'])) {
-            $where_clause .= " AND tde.nombre LIKE ?";
-            $params[] = '%' . $filtros['tipo_estudio'] . '%';
-        }
-        if (!empty($filtros['paciente'])) {
-            // Filtrar por nombres y apellidos concatenados
-            $where_clause .= " AND CONCAT(per.nombres, ' ', per.apellidos) LIKE ?";
-            $params[] = '%' . $filtros['paciente'] . '%';
-        }
-        if (!empty($filtros['obra_social'])) {
-            $where_clause .= " AND per.obra_social LIKE ?";
-            $params[] = '%' . $filtros['obra_social'] . '%';
-        }
-        if (!empty($filtros['fecha_carga'])) {
-            $where_clause .= " AND e.fecha_carga LIKE ?";
-            $params[] = '%' . $filtros['fecha_carga'] . '%';
-        }
-        if (!empty($filtros['profesional'])) {
-            // Filtrar por nombres y apellidos concatenados
-            $where_clause .= " AND CONCAT(prof.nombres, ' ', prof.apellidos) LIKE ?";
-            $params[] = '%' . $filtros['profesional'] . '%';
-        }
-        if (!empty($filtros['estado'])) {
-            // Filtrar por nombres y apellidos concatenados
-            $where_clause .= " AND e.estado_estudio LIKE ?";
-            $params[] = '%' . $filtros['estado'] . '%';
+        } else {
+            if (!empty($filtros['servicio'])) {
+                $where_clause .= " AND s.nombre_servicio LIKE ?";
+                $params[] = '%' . $filtros['servicio'] . '%';
+            }
+            if (!empty($filtros['tipo_estudio'])) {
+                $where_clause .= " AND tde.nombre LIKE ?";
+                $params[] = '%' . $filtros['tipo_estudio'] . '%';
+            }
+            if (!empty($filtros['paciente'])) {
+                // Filtrar por nombres y apellidos concatenados
+                $where_clause .= " AND CONCAT(per.nombres, ' ', per.apellidos) LIKE ?";
+                $params[] = '%' . $filtros['paciente'] . '%';
+            }
+            if (!empty($filtros['obra_social'])) {
+                $where_clause .= " AND per.obra_social LIKE ?";
+                $params[] = '%' . $filtros['obra_social'] . '%';
+            }
+            if (!empty($filtros['fecha_carga'])) {
+                $where_clause .= " AND e.fecha_carga LIKE ?";
+                $params[] = '%' . $filtros['fecha_carga'] . '%';
+            }
+            if (!empty($filtros['profesional'])) {
+                // Filtrar por nombres y apellidos concatenados
+                $where_clause .= " AND CONCAT(prof.nombres, ' ', prof.apellidos) LIKE ?";
+                $params[] = '%' . $filtros['profesional'] . '%';
+            }
+            if (!empty($filtros['estado'])) {
+                // Filtrar por estado específico
+                $where_clause .= " AND e.estado_estudio LIKE ?";
+                $params[] = '%' . $filtros['estado'] . '%';
+            }
         }
         
         // Agregar la cláusula WHERE al SQL si hay condiciones

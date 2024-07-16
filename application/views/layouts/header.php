@@ -47,7 +47,8 @@
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <img src="<?php echo base_url()?>assets/template/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-                                <span class="hidden-xs">Usuario</span>
+                                <span class="hidden-xs"><?php echo $this->session->userdata('nombre'); ?></span>
+
                             </a>
                             <ul class="dropdown-menu">
                                 <li class="user-body">
