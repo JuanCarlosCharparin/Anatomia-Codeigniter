@@ -147,4 +147,31 @@ class Biopsia_model extends CI_Model {
     }
 
 
+    //Armado de ficha pdf
+
+    public function obtener_datos_ficha($nro_servicio) {
+        $sql = "SELECT e.nro_servicio AS n_servicio,
+                       e.fecha_carga AS fecha,
+                       CONCAT(p.nombres, ' ', p.apellidos) AS paciente,
+                       p.documento AS documento,
+                       p.obra_social AS obra_social,
+                       TIMESTAMPDIFF(YEAR, p.fecha_nacimiento, CURDATE()) AS edad,
+                       e.medico_solicitante AS medico_solicitante,
+                       e.material AS material,
+                       e.diagnostico_presuntivo AS antecedentes,
+                       de.macro,
+                       de.micro,
+                       de.diagnostico_presuntivo AS diagnostico,
+                       tde.nombre AS tipo_estudio
+                FROM estudio e
+                INNER JOIN personal p ON e.personal_id = p.id
+                INNER JOIN detalle_estudio de ON e.detalle_estudio_id = de.id
+                INNER JOIN tipo_de_estudio tde ON e.tipo_estudio_id = tde.id
+                WHERE e.nro_servicio = ?
+                ORDER BY e.nro_servicio";
+        $query = $this->db2->query($sql, array($nro_servicio));
+        return $query->row_array();
+    }
+
+
 }

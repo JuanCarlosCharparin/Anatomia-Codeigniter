@@ -18,6 +18,9 @@ $route['translate_uri_dashes'] = FALSE;
 $route['mantenimiento/biopsia/getEditModalContent/(:any)'] = 'biopsia/getEditModalContent/$1';
 $route['mantenimiento/biopsia/modificarEstado/(:num)'] = 'biopsia/modificarEstado/$1';
 
+//Ficha
+$route['mantenimiento/reporte_pdf/generar_pdf/(:num)'] = 'reportePdf/generar_pdf/$1';
+
 
 
 
