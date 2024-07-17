@@ -79,7 +79,8 @@ class CrearEstudio extends CI_Controller {
                 'material' => $material,
                 'fecha_carga' => $fecha,
                 'diagnostico_presuntivo' => $diagnostico,
-                'medico_solicitante' => $solicitante
+                'medico_solicitante' => $solicitante,
+                'createdBy' => $this->session->userdata('id')
             );
 
             // Insertar el estudio
@@ -210,6 +211,12 @@ class CrearEstudio extends CI_Controller {
         } else {
             echo '<p>No se encontró ningún paciente con ese documento.</p>';
         }
+    }
+
+
+    public function obtener_ultimo_registro() {
+        $data['registros'] = $this->Estudio_model->obtener_ultimo_registro();
+        echo json_encode($data);
     }
 }
 

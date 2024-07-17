@@ -173,5 +173,16 @@ class Biopsia_model extends CI_Model {
         return $query->row_array();
     }
 
+    /*public function obtener_ultimo_registro(){
+        $sql = "SELECT e.createdBy, e.createdAt, e.nro_servicio, u.nombres, u.apellidos
+                    FROM estudio e
+                    JOIN usuario u ON u.id = e.createdBy
+                    ORDER BY e.createdAt DESC
+                    LIMIT 5";
+        
+        $query = $this->db2->query($sql);
+        return $query->result();
+    }*/
+
 
 }

@@ -120,7 +120,8 @@ class Biopsia extends CI_Controller {
                     'toma' => $toma,
                     'recomendaciones' => $recomendaciones,
                     'microorganismos' => $microorganismos,
-                    'resultado' => $resultado
+                    'resultado' => $resultado,
+                    'createdBy' => $this->session->userdata('id')
                 );
     
                 $result = $this->Biopsia_model->insertar_pap($data_pap);
@@ -144,7 +145,8 @@ class Biopsia extends CI_Controller {
                     'diagnostico_presuntivo' => $this->input->post('diagnostico_presuntivo'),
                     'tecnicas' => $this->input->post('tecnicas'),
                     'material' => $this->input->post('material'),
-                    'tipo_estudio_id' => $this->input->post('tipo_estudio_id')
+                    'tipo_estudio_id' => $this->input->post('tipo_estudio_id'),
+                    'createdBy' => $this->session->userdata('id')
                 );
     
                 $result = $this->Biopsia_model->insertar_detalle($data_detalle);

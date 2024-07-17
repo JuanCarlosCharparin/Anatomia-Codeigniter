@@ -22,6 +22,12 @@
             </div>
         </div>
     </section>
+    <footer>
+        <div id="ultimos-registros">
+            <!-- Aquí se mostrarán los últimos registros -->
+        </div>
+    </footer>
+    
 </div>
 
 <!-- Modal -->
@@ -244,5 +250,75 @@
         today = yyyy + '-' + mm + '-' + dd;
         document.getElementById('fecha').value = today;
     });
+
+
+
+
+
+    $(document).ready(function(){
+        function actualizarRegistros() {
+            $.ajax({
+                url: "<?php echo base_url('mantenimiento/CrearEstudio/obtener_ultimo_registro'); ?>",
+                method: "GET",
+                dataType: "json",
+                success: function(data) {
+                    var registros = data.registros; // Acceder directamente a `data.registros` que contiene los registros
+                    var html = '';
+
+                    $.each(registros, function(index, registro) {
+                        // Convertir la fecha a un objeto Date para formatearla adecuadamente
+                        var fecha = new Date(registro.createdAt);
+                        var fechaFormateada = fecha.toLocaleDateString() + ' a las ' + fecha.toLocaleTimeString();
+
+                        html += '<p style="background-color: #f9f9f9; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 10px;">' +
+        registro.nombres + ' ' + registro.apellidos + ' creó el estudio con número de servicio: ' + registro.nro_servicio + ' el día ' + fechaFormateada + '</p>';
+                    });
+
+                    $('#ultimos-registros').html(html);
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error al obtener los registros:", error);
+                }
+            });
+        }
+
+        // Llamar la función para actualizar los registros al cargar la página
+        actualizarRegistros();
+
+        // Actualizar los registros cada 10 segundos
+        setInterval(actualizarRegistros, 10000);
+    });
+
+
+
+    /*$(document).ready(function() {
+        function cargarUltimosRegistros() {
+            $.ajax({
+                url: "<?php /*echo base_url('mantenimiento/CrearEstudio/obtener_ultimo_registro');*/ ?>",
+                method: "GET",
+                dataType: "json",
+                success: function(data) {
+                    var registrosHtml = '';
+                    $.each(data, function(index, registro) {
+                        var createdAt = new Date(registro.createdAt);
+                        var fecha = createdAt.toLocaleDateString(); // Obtener la fecha
+                        var hora = createdAt.toLocaleTimeString();  // Obtener la hora
+
+                        registrosHtml += '<div style="background-color: #f9f9f9; margin-bottom: 10px; padding: 10px; border: 1px solid #ddd;">';
+                        registrosHtml += '<p style="margin: 0;">' + registro.nombres + ' creó el estudio con número de servicio: ' + registro.nro_servicio + ' el día ' + fecha + ' a las ' + hora + ' hs</p>';
+                        registrosHtml += '</div>';
+                    });
+                    $('#ultimos-registros').html(registrosHtml);
+                }
+            });
+        }
+
+        // Cargar los registros al cargar la página
+        cargarUltimosRegistros();
+
+        // Recargar los registros cada 10 segundos
+        setInterval(cargarUltimosRegistros, 10000);
+    });*/
+    
 
 </script>
