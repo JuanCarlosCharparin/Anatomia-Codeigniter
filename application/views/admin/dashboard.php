@@ -5,16 +5,19 @@
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <h1>
-                Categoria
-                <small>Editar</small>
+                Bienvenido!
+                
                 </h1>
+                
+                <p></p>
+                <span class="hidden-xs"><?php echo $this->session->userdata('nombre'); ?></span>
             </section>
             <!-- Main content -->
             <section class="content">
                 <!-- Default box -->
                 <div class="box box-solid">
                     <div class="box-body">
-                    Esta vista es la del dashboard
+                    Sistema de Anatomía Patologica.
                     </div>
                     <!-- /.box-body -->
                 </div>
