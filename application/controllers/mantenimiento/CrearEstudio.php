@@ -199,13 +199,16 @@ class CrearEstudio extends CI_Controller {
 
     public function buscar_paciente() {
         $documento = $this->input->post('documento');
-        echo "Documento recibido: " . $documento;
+        /*echo "Documento recibido: " . $documento;*/
         $paciente = $this->Paciente_model->obtener_paciente_por_documento($documento);
         if ($paciente) {
-            echo '<p>id: ' . $paciente->id . '</p>';
             echo '<p>Nombre: ' . $paciente->nombres . '</p>';
             echo '<p>Apellido: ' . $paciente->apellidos . '</p>';
             echo '<p>Fecha Nac: ' . $paciente->fecha_nacimiento . '</p>';
+            echo '<p>Obra Social: ' . $paciente->obra_social . '</p>';
+            echo '<p>Genero: ' . $paciente->genero . '</p>';
+            echo '<p>Celular: ' . $paciente->celular . '</p>';
+            echo '<p>Email: ' . $paciente->mail . '</p>';
             echo '<button type="button" class="btn btn-primary" onclick="seleccionarPaciente(\'' . $paciente->nombres . ' ' . $paciente->apellidos . '\')">Seleccionar</button>';
             echo '<p></p>';
         } else {

@@ -105,10 +105,15 @@
                 <!-- Aquí va el contenido del modal-body -->
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary" id="saveChanges">Guardar cambios</button>
+                
+                <button type="button" class="btn btn-primary" id="saveChanges">Finalizar</button>
+                <p></p>
+                <hr>
                 <button type="button" class="btn btn-success" id="actualizarDatos">Actualizar</button>
-                <button type="button" class="btn btn-secondary" id="limpiarDatos">Limpiar</button>
+                <p></p>
+                <hr>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <!--button type="button" class="btn btn-secondary" id="limpiarDatos">Limpiar</button-->
             </div>
         </div>
     </div>

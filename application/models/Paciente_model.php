@@ -10,19 +10,30 @@ class Paciente_model extends CI_Model {
     }
 
     public function obtener_paciente_por_documento($documento) {
-        $sql_persona = "SELECT  p.id, 
-                                p.nombres, 
-                                p.apellidos, 
-                                p.fecha_nacimiento as fecha_nacimiento, 
-                                os.nombre AS obra_social,
-                                p.documento as documento,
-                                p.genero as genero
-                            FROM persona p
-                            INNER JOIN persona_plan pp ON p.id = pp.persona_id
-                            INNER JOIN plan pl ON pp.plan_id = pl.id
-                            INNER JOIN obra_social os ON pl.obra_social_id = os.id
-                            INNER JOIN persona_plan_por_defecto pppd ON pp.id = pppd.persona_plan_id 
-                            WHERE p.documento = ?";
+        $sql_persona = "SELECT  
+                        p.id, 
+                        p.nombres, 
+                        p.apellidos, 
+                        p.fecha_nacimiento AS fecha_nacimiento, 
+                        os.nombre AS obra_social,
+                        p.documento AS documento,
+                        p.genero AS genero,
+                        CONCAT(p.contacto_celular_prefijo, ' ', p.contacto_celular_codigo, ' ', p.contacto_celular_numero) AS celular,
+                        p.contacto_email_direccion as mail,
+                        pai.nombre AS nombre_pais,
+                        pr.nombre AS nombre_provincia,
+                        c.nombre AS nombre_ciudad
+                        
+                    FROM persona p
+                    INNER JOIN persona_plan pp ON p.id = pp.persona_id
+                    INNER JOIN plan pl ON pp.plan_id = pl.id
+                    INNER JOIN obra_social os ON pl.obra_social_id = os.id
+                    INNER JOIN persona_plan_por_defecto pppd ON pp.id = pppd.persona_plan_id
+                    INNER JOIN pais pai ON p.pais_id = pai.id
+                    inner join direccion d on p.direccion_id = d.id 
+                    LEFT JOIN provincia pr ON d.provincia_id = pr.id
+                    LEFT JOIN ciudad c ON d.ciudad_id = c.id
+                    WHERE p.documento = ?";
        
         $query = $this->db_salutte->query($sql_persona, array($documento));
         return $query->row(); 
