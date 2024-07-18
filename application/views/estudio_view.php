@@ -84,6 +84,89 @@
             </div>
         </div>
     </section>
+    <footer>
+        <div id="ultimos-registros">
+            <!-- Aquí se mostrarán los últimos registros -->
+        </div>
+        <div id="ultimos-registros-detalles">
+            <!-- Aquí se mostrarán los últimos registros -->
+        </div>
+    </footer>
 </div>
 
 
+<script>
+    $(document).ready(function(){
+        function actualizarRegistros() {
+            $.ajax({
+                url: "<?php echo base_url('mantenimiento/CrearEstudio/obtener_ultimo_registro'); ?>",
+                method: "GET",
+                dataType: "json",
+                success: function(data) {
+                    var registros = data.registros; // Acceder directamente a `data.registros` que contiene los registros
+                    var html = '';
+
+                    $.each(registros, function(index, registro) {
+                        // Convertir la fecha a un objeto Date para formatearla adecuadamente
+                        var fecha = new Date(registro.createdAt);
+                        var fechaFormateada = fecha.toLocaleDateString() + ' a las ' + fecha.toLocaleTimeString();
+
+                        html += '<p style="background-color: #f9f9f9; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 10px;">' +
+                        registro.nombres + ' ' + registro.apellidos + ' creó el estudio con número de servicio: ' + registro.nro_servicio + ' el día ' + fechaFormateada + '</p> ';
+                    });
+
+                    $('#ultimos-registros').html(html);
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error al obtener los registros:", error);
+                }
+            });
+        }
+
+        // Llamar la función para actualizar los registros al cargar la página
+        actualizarRegistros();
+
+        // Actualizar los registros cada 10 segundos
+        setInterval(actualizarRegistros, 10000);
+    });
+
+
+
+
+
+
+    $(document).ready(function() {
+        function actualizarRegistros() {
+            $.ajax({
+                url: "<?php echo base_url('mantenimiento/Biopsia/obtener_ultimo_registro_todos'); ?>",
+                method: "GET",
+                dataType: "json",
+                success: function(data) {
+                    var registros = data.registros;
+                    var html = '';
+
+                    // Mostrar registros obtenidos del servidor
+                    $.each(registros, function(index, registro) {
+                        // Convertir la fecha a un objeto Date para formatearla adecuadamente
+                        var fecha = new Date(registro.createdAt);
+                        var fechaFormateada = fecha.toLocaleDateString() + ' a las ' + fecha.toLocaleTimeString();
+
+                        html += '<p style="background-color: #f9f9f9; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 10px;">' +
+                                registro.nombres + ' ' + registro.apellidos + ' creó el DETALLE de estudio para el número de servicio: ' + registro.nro_servicio + ' el día ' + fechaFormateada + ' (' + registro.tipo_estudio + ')</p> ';
+                    });
+
+                    $('#ultimos-registros-detalles').html(html);
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error al obtener los registros:", error);
+                }
+            });
+        }
+
+        // Llamar la función para actualizar los registros al cargar la página
+        actualizarRegistros();
+
+        // Actualizar los registros cada 10 segundos
+        setInterval(actualizarRegistros, 10000);
+});
+</script>

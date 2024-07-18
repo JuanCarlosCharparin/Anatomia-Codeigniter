@@ -48,39 +48,7 @@ class Estudios extends CI_Controller
     }
 }
 
-    /*public function index()
-    {
-        $data['profesionales'] = $this->Estudio_model->obtener_profesionales();
-        $this->load->view('layouts/header');
-        $this->load->view('layouts/aside');
-        $this->load->view('estudio_view', $data);
-        $this->load->view('layouts/footer');
-    }
-
-    public function buscar()
-    {
-        $n_servicio = $this->input->post('n_servicio');
-        $servicio = $this->input->post('servicio');
-        $tipo_estudio = $this->input->post('tipo_estudio');
-        $paciente = $this->input->post('paciente');
-        $obra_social = $this->input->post('obra_social');
-        $diagnostico = $this->input->post('diagnostico');
-        $fecha = $this->input->post('fecha');
-        $prof_sol_id = $this->input->post('prof_sol');
-        $estado = $this->input->post('estado');
-
-        $data['profesionales'] = $this->Estudio_model->obtener_profesionales();
-        $data['resultados'] = $this->Estudio_model->buscar($n_servicio, $servicio, $tipo_estudio, $paciente, $obra_social, $diagnostico, $fecha, $prof_sol_id, $estado);
-        
-        if (empty($data['resultados'])) {
-            $this->session->set_flashdata('error', 'No se encontraron resultados.');
-        }
-
-        $this->load->view('layouts/header');
-        $this->load->view('layouts/aside');
-        $this->load->view('resultados_view', $data);
-        $this->load->view('layouts/footer');
-    }*/
+    
 
 
 

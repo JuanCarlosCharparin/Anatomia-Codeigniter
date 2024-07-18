@@ -271,7 +271,7 @@
                         var fechaFormateada = fecha.toLocaleDateString() + ' a las ' + fecha.toLocaleTimeString();
 
                         html += '<p style="background-color: #f9f9f9; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 10px;">' +
-        registro.nombres + ' ' + registro.apellidos + ' creó el estudio con número de servicio: ' + registro.nro_servicio + ' el día ' + fechaFormateada + '</p>';
+                        registro.nombres + ' ' + registro.apellidos + ' creó el estudio con número de servicio: ' + registro.nro_servicio + ' el día ' + fechaFormateada + '</p>';
                     });
 
                     $('#ultimos-registros').html(html);
