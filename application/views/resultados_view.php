@@ -152,35 +152,35 @@ $(document).ready(function () {
 
     // Mostrar modal con datos cargados
     $('.btn-edit').on('click', function () {
-    let n_servicio = $(this).data('n_servicio');
-    $.ajax({
-        url: '<?php echo base_url(); ?>mantenimiento/Biopsia/getEditModalContent/' + n_servicio,
-        type: 'GET',
-        dataType: 'json',
-        success: function (response) {
-            if (response.html) {
-                $('#editModal .modal-body').html(response.html);
-                $('#editModal').modal('show');
+        let n_servicio = $(this).data('n_servicio');
+        $.ajax({
+            url: '<?php echo base_url(); ?>mantenimiento/Biopsia/getEditModalContent/' + n_servicio,
+            type: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                if (response.html) {
+                    $('#editModal .modal-body').html(response.html);
+                    $('#editModal').modal('show');
 
-                // Cargar datos desde localStorage
-                cargarDatos(n_servicio);
+                    // Cargar datos desde localStorage
+                    cargarDatos(n_servicio);
 
-                // Verificar si los datos han sido guardados de forma irreversible
-                if (localStorage.getItem('isDataSaved_' + n_servicio)) {
-                    // Deshabilitar todos los campos de entrada y estilizar como grisáceo
-                    $('#editModal .modal-body input, #editModal .modal-body textarea, #editModal .modal-body select, #limpiarDatos')
-                        .prop('disabled', true)
-                        .css('background-color', '#e9ecef');
+                    // Verificar si los datos han sido guardados de forma irreversible
+                    if (localStorage.getItem('isDataSaved_' + n_servicio)) {
+                        // Deshabilitar todos los campos de entrada y estilizar como grisáceo
+                        $('#editModal .modal-body input, #editModal .modal-body textarea, #editModal .modal-body select, #limpiarDatos')
+                            .prop('disabled', true)
+                            .css('background-color', '#e9ecef');
 
-                    $('#editModal .modal-body .select2-container--default .select2-selection--single');
+                        $('#editModal .modal-body .select2-container--default .select2-selection--single');
+                    }
                 }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error en la petición AJAX:', error);
             }
-        },
-        error: function(xhr, status, error) {
-            console.error('Error en la petición AJAX:', error);
-        }
+        });
     });
-});
 
     function toggleDetalle() {
         var tipoEstudio = $('#tipo_estudio').val();
@@ -308,6 +308,7 @@ $(document).ready(function () {
         
         guardarDatos(n_servicio); // Guardar datos en localStorage
         cambiarEstadoEstudio(n_servicio);
+        registrarCambios(n_servicio);
         
         Swal.fire({
             icon: 'success',
@@ -368,6 +369,23 @@ $(document).ready(function () {
             }
         });
     }
+
+
+
+    function registrarCambios(n_servicio) {
+    var tipoEstudio = $('#tipo_estudio').text().trim();
+    var prefix = 'datos_' + n_servicio + '_';
+
+    // Obtener los datos existentes de localStorage si los hay
+    var savedData = localStorage.getItem(prefix + 'data');
+    var dataToSave = {};
+    var cambios = [];
+
+    if (savedData) {
+        dataToSave = JSON.parse(savedData);
+    }
+    
+}
 
 
 

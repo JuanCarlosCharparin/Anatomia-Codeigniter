@@ -15,7 +15,7 @@
                         
                         <!-- Botón para abrir el modal -->
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#crearEstudioModal">
-                            Crear Estudio
+                            Crear Estudio <i class="fa fa-plus"></i>
                         </button>
                     </div>
                 </div>

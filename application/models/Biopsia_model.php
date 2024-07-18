@@ -173,16 +173,28 @@ class Biopsia_model extends CI_Model {
         return $query->row_array();
     }
 
-    /*public function obtener_ultimo_registro(){
-        $sql = "SELECT e.createdBy, e.createdAt, e.nro_servicio, u.nombres, u.apellidos
-                    FROM estudio e
-                    JOIN usuario u ON u.id = e.createdBy
-                    ORDER BY e.createdAt DESC
-                    LIMIT 5";
-        
+    public function obtener_ultimo_registro_pap() {
+        $sql = "SELECT dp.createdAt, dp.createdBy, u.nombres, u.apellidos, e.nro_servicio, 'Pap' as tipo_estudio
+                FROM detalle_pap dp
+                INNER JOIN usuario u ON u.id = dp.createdBy
+                INNER JOIN estudio e ON e.detalle_pap_id = dp.id
+                ORDER BY dp.createdAt DESC
+                LIMIT 5";
         $query = $this->db2->query($sql);
         return $query->result();
-    }*/
+    }
+    
+    public function obtener_ultimo_registro_estudio() {
+        $sql = "SELECT de.createdAt, de.createdBy, tde.nombre as tipo_estudio, u.nombres, u.apellidos, e.nro_servicio
+                FROM detalle_estudio de
+                JOIN usuario u ON u.id = de.createdBy
+                JOIN tipo_de_estudio tde ON tde.id = de.tipo_estudio_id
+                JOIN estudio e ON e.detalle_estudio_id = de.id
+                ORDER BY de.createdAt DESC
+                LIMIT 5";
+        $query = $this->db2->query($sql);
+        return $query->result();
+    }
 
 
 }

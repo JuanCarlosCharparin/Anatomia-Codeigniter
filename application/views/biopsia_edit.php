@@ -318,6 +318,7 @@
                     <option value="Otros">Otros</option>
                 </select>
                 <p></p>
+                <hr>
             </div>
             <p></p>
             <div class="col-md-6">
@@ -332,6 +333,12 @@
                     <option value="L-SIL">LSIL</option>
                     <option value="HSIL">HSIL</option>
                 </select>
+                <p></p>
+                <hr>
+            </div>
+
+            <div class="col-md-6" id="ultimos-registros">
+            <!-- Aquí se mostrarán los últimos registros -->
             </div>
             
         </div>
@@ -387,16 +394,22 @@
                 <label for="diagnostico_presuntivo">Diagnóstico:</label>
                 <input type="text" class="form-control" id="diagnostico_presuntivo" name="diagnostico_presuntivo">
                 <p></p>
+                <hr>
             </div>
             <div class="col-md-6">
                 <label for="tecnicas">Técnicas:</label>
                 <input type="text" class="form-control" id="tecnicas" name="tecnicas">
                 <p></p>
+                <hr>
             </div>
             <!--div class="col-md-6">
                 <label for="material">Material:</label>
                 <input type="text" class="form-control" id="material" name="material" placeholder="Material" >
             </div-->
+
+            <div class="col-md-6" id="ultimos-registros">
+            <!-- Aquí se mostrarán los últimos registros -->
+            </div>
         </div>
     <?php endif; ?>
 </form>
@@ -490,13 +503,52 @@ $(document).ready(function() {
     });
 
     // Personalizar la apariencia de los elementos seleccionados
-    function formatState(state) {
-        if (!state.id) {
-            return state.text;
+        function formatState(state) {
+            if (!state.id) {
+                return state.text;
+            }
+            var $state = $('<span>' + state.text + '</span>');
+            return $state;
+        };
+    });
+
+
+
+    //Registro detalle
+
+    $(document).ready(function() {
+        function actualizarRegistros() {
+            $.ajax({
+                url: "<?php echo base_url('mantenimiento/Biopsia/obtener_ultimo_registro_todos'); ?>",
+                method: "GET",
+                dataType: "json",
+                success: function(data) {
+                    var registros = data.registros;
+                    var html = '';
+
+                    // Mostrar registros obtenidos del servidor
+                    $.each(registros, function(index, registro) {
+                        // Convertir la fecha a un objeto Date para formatearla adecuadamente
+                        var fecha = new Date(registro.createdAt);
+                        var fechaFormateada = fecha.toLocaleDateString() + ' a las ' + fecha.toLocaleTimeString();
+
+                        html += '<p style="background-color: #f9f9f9; padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 10px;">' +
+                                registro.nombres + ' ' + registro.apellidos + ' creó el detalle de estudio para el número de servicio: ' + registro.nro_servicio + ' el día ' + fechaFormateada + ' (' + registro.tipo_estudio + ')</p>';
+                    });
+
+                    $('#ultimos-registros').html(html);
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error al obtener los registros:", error);
+                }
+            });
         }
-        var $state = $('<span>' + state.text + '</span>');
-        return $state;
-    };
+
+        // Llamar la función para actualizar los registros al cargar la página
+        actualizarRegistros();
+
+        // Actualizar los registros cada 10 segundos
+        setInterval(actualizarRegistros, 10000);
 });
 
 </script>

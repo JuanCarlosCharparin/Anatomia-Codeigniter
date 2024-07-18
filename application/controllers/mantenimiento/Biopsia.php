@@ -121,7 +121,8 @@ class Biopsia extends CI_Controller {
                     'recomendaciones' => $recomendaciones,
                     'microorganismos' => $microorganismos,
                     'resultado' => $resultado,
-                    'createdBy' => $this->session->userdata('id')
+                    'createdBy' => $this->session->userdata('id'),
+                    'tipo_estudio_id' => $this->input->post('tipo_estudio_id')
                 );
     
                 $result = $this->Biopsia_model->insertar_pap($data_pap);
@@ -195,6 +196,25 @@ class Biopsia extends CI_Controller {
             // Manejo de excepciones
             echo json_encode(array('success' => false, 'error' => $e->getMessage()));
         }
+    }
+
+    public function obtener_ultimo_registro_todos() {
+        $registros_pap = $this->Biopsia_model->obtener_ultimo_registro_pap();
+        $registros_estudio = $this->Biopsia_model->obtener_ultimo_registro_estudio();
+    
+        // Combinar ambos arrays
+        $registros_todos = array_merge($registros_pap, $registros_estudio);
+    
+        // Ordenar los registros combinados por fecha de creación (createdAt)
+        usort($registros_todos, function($a, $b) {
+            return strtotime($b->createdAt) - strtotime($a->createdAt);
+        });
+    
+        // Limitar los resultados a los últimos 5 registros
+        $registros_todos = array_slice($registros_todos, 0, 5);
+    
+        $data['registros'] = $registros_todos;
+        echo json_encode($data);
     }
 
 }
