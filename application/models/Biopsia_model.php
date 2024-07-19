@@ -149,6 +149,12 @@ class Biopsia_model extends CI_Model {
 
     //Armado de ficha pdf
 
+    public function tipo_estudio($nro_servicio){
+        $sql = "SELECT e.nro_servicio, e.tipo_estudio_id FROM estudio e WHERE e.nro_servicio = ?";
+        $query = $this->db2->query($sql, array($nro_servicio));
+        return $query->row_array();
+    }
+
     public function obtener_datos_ficha($nro_servicio) {
         $sql = "SELECT e.nro_servicio AS n_servicio,
                        e.fecha_carga AS fecha,
@@ -162,13 +168,51 @@ class Biopsia_model extends CI_Model {
                        de.macro,
                        de.micro,
                        de.diagnostico_presuntivo AS diagnostico,
-                       tde.nombre AS tipo_estudio
+                       tde.nombre AS tipo_estudio,
+                       tde.id as tipo_estudio_id
                 FROM estudio e
                 INNER JOIN personal p ON e.personal_id = p.id
                 INNER JOIN detalle_estudio de ON e.detalle_estudio_id = de.id
                 INNER JOIN tipo_de_estudio tde ON e.tipo_estudio_id = tde.id
                 WHERE e.nro_servicio = ?
                 ORDER BY e.nro_servicio";
+        $query = $this->db2->query($sql, array($nro_servicio));
+        return $query->row_array();
+    }
+
+    public function obtener_datos_pap($nro_servicio) {
+        $sql = "SELECT  e.nro_servicio AS n_servicio,
+                        e.fecha_carga AS fecha,
+                        CONCAT(p.nombres, ' ', p.apellidos) AS paciente,
+                        p.documento AS documento,
+                        p.obra_social AS obra_social,
+                        TIMESTAMPDIFF(YEAR, p.fecha_nacimiento, CURDATE()) AS edad,
+                        e.medico_solicitante AS medico_solicitante,
+                        e.material AS material,
+                        e.diagnostico_presuntivo AS antecedentes,
+                        dp.tipo_estudio_id AS tipo_estudio_id,
+                        dp.estado_especimen AS estado_especimen,
+                        dp.celulas_pavimentosas AS celulas_pavimentosas,
+                        dp.celulas_cilindricas AS celulas_cilindricas,
+                        dp.valor_hormonal AS valor_hormonal,
+                        DATE_FORMAT(dp.fecha_lectura, '%d/%m/%Y') AS fecha_lectura,
+                        dp.valor_hormonal_HC AS valor_hormonal_HC,
+                        dp.cambios_reactivos AS cambios_reactivos,
+                        dp.cambios_asoc_celula_pavimentosa AS cambios_asoc_celula_pavimentosa,
+                        dp.cambios_celula_glandulares AS cambios_celula_glandulares,
+                        dp.celula_metaplastica AS celula_metaplastica, 
+                        dp.otras_neo_malignas AS otras_neo_malignas,
+                        dp.toma AS toma, 
+                        dp.recomendaciones AS recomendaciones,
+                        dp.microorganismos AS microorganismos,
+                        dp.resultado AS resultado
+                    FROM estudio e
+                    INNER JOIN personal p ON e.personal_id = p.id
+                    INNER JOIN detalle_pap dp ON e.detalle_pap_id = dp.id
+
+                    WHERE e.nro_servicio = ?
+                    ORDER BY e.nro_servicio";
+
         $query = $this->db2->query($sql, array($nro_servicio));
         return $query->row_array();
     }

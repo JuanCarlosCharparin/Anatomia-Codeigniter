@@ -223,8 +223,8 @@
                 <label for="cambios_reactivos">Cambios Reactivos:</label>
                 <select class="select2" id="cambios_reactivos" name="cambios_reactivos[]" multiple="multiple" style="width: 100%;">
                     <option value="Asociados inflamacion_leve">Asociados a inflamacion leve</option>
-                    <option value="Asociados inflamacion_moderada">Asociados a inflamacion moderada</option>
-                    <option value="Asociados inflamacion_severa">Asociados a inflamacion severa</option>
+                    <option value="Asociados inflamacion moderada">Asociados a inflamacion moderada</option>
+                    <option value="Asociados inflamacion severa">Asociados a inflamacion severa</option>
                     <option value="Trastornos madurativos">Trastornos madurativos</option>
                     <option value="Efecto radioterapia">Efecto de radioterapia</option>
                     <option value="DIU">DIU</option>

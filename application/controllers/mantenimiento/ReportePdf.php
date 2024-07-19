@@ -13,14 +13,6 @@ class ReportePdf extends CI_Controller {
     }
 
     public function generar_pdf($nro_servicio) {
-        // Obtener datos del estudio
-        $estudio = $this->Biopsia_model->obtener_datos_ficha($nro_servicio);
-        
-        if (!$estudio) {
-            show_404();
-            return;
-        }
-
         // Inicializar FPDF
         $pdf = new FPDF();
         $pdf->AliasNbPages();
@@ -29,12 +21,20 @@ class ReportePdf extends CI_Controller {
         // Header
         $this->Header($pdf);
 
-        // Agregar contenido de la ficha
-        $this->ficha_contenido($pdf, $estudio);
+        // Obtener datos del estudio
+        $estudio = $this->Biopsia_model->obtener_datos_ficha($nro_servicio);
+        $estudio_pap = $this->Biopsia_model->obtener_datos_pap($nro_servicio);
+        $tipo_estudio = $this->Biopsia_model->tipo_estudio($nro_servicio);
 
+        if ($tipo_estudio['tipo_estudio_id'] == 3){
+            $this->contenido_pap($pdf, $estudio_pap);
+        } else {
+            $this->ficha_contenido($pdf, $estudio);
+        }
+        
+    
         // Salida del PDF
         $pdf->Output('I');
-
         exit;
     }
 
@@ -103,5 +103,103 @@ class ReportePdf extends CI_Controller {
         $pdf->SetX($x + 130);
         $pdf->Cell(50, 40, 'Fecha:', 1, 1);
     }
-}
 
+
+
+
+
+
+
+
+
+    function contenido_pap($pdf, $estudio_pap) {
+       $pdf->SetFont('Arial', 'B', 10);
+        $pdf->SetFillColor(200, 220, 255);
+    
+        // Inicializar coordenadas X e Y
+        $x = $pdf->GetX();
+        $y = $pdf->GetY();
+    
+        // Líneas verticales
+        $pdf->SetX($x);
+        $pdf->Line($x + 35, $y, $x + 35, $y + 210); // Línea vertical en la segunda posición
+    
+        // Datos del Estudio
+        $pdf->Cell(35, 10, 'Mail:', 1, 0);
+        $pdf->SetX($x + 35);
+        $pdf->Cell(65, 10, utf8_decode('Fecha de recepción: ' . $estudio_pap['fecha']), 1);
+        $pdf->SetX($x + 100);
+        $pdf->Cell(80, 10, utf8_decode('Nº Protocolo: ' . $estudio_pap['n_servicio']), 1, 1);
+    
+        // Líneas verticales
+        $pdf->SetX($x);
+        $pdf->Line($x + 35, $y, $x + 35, $y + 240); // Línea vertical en la segunda posición
+    
+        // Datos del Estudio
+        $pdf->SetX($x);
+        $pdf->Cell(180, 10, 'Nombre:                     ' . $estudio_pap['paciente'], 1, 1);
+    
+        $pdf->SetX($x);
+        $pdf->Cell(100, 10, 'DNI:                             ' . $estudio_pap['documento'], 1, 0);
+        $pdf->SetX($x + 100);
+        $pdf->Cell(80, 10, 'Edad: ' . $estudio_pap['edad'], 1, 1);
+    
+        $pdf->SetX($x);
+        $pdf->Cell(180, 10, 'Obra Social:               ' . $estudio_pap['obra_social'], 1, 1);
+    
+        $pdf->SetX($x);
+        $pdf->Cell(180, 15, utf8_decode('Médico solicitante:    ' . $estudio_pap['medico_solicitante']), 1, 1);
+    
+        $pdf->SetX($x);
+        $pdf->Cell(180, 25, utf8_decode('Material remitido:      ' . $estudio_pap['material']), 1, 1);
+    
+        $pdf->SetX($x);
+        $pdf->Cell(180, 10, utf8_decode('Antecedentes:           ' . $estudio_pap['antecedentes']), 1, 1);
+
+        // Datos específicos para PAP
+        $pdf->SetX($x);
+        $pdf->Cell(180, 10, utf8_decode('Estado Espécimen:   ' . $estudio_pap['estado_especimen']), 1, 1);
+
+        $pdf->SetX($x);
+        $pdf->Cell(180, 10, utf8_decode('Cél. Pavimentosas:   ' . $estudio_pap['celulas_pavimentosas']), 1, 1);
+
+        $pdf->SetX($x);
+        $pdf->Cell(180, 10, utf8_decode('Cél. Cilíndricas:         ' . $estudio_pap['celulas_cilindricas']), 1, 1);
+
+        $pdf->SetX($x);
+        $pdf->Cell(180, 10, 'Valor Hormonal:        ' . $estudio_pap['valor_hormonal'], 1, 1);
+
+        $pdf->SetX($x);
+        $pdf->Cell(180, 10, 'Valor Hormonal HC:  ' . $estudio_pap['valor_hormonal_HC'], 1, 1);
+
+        $pdf->SetX($x);
+        $pdf->Cell(180, 10, 'Fecha de Lectura:     ' . $estudio_pap['fecha_lectura'], 1, 1);
+
+        $pdf->SetX($x);
+        $pdf->Cell(180, 10, 'Cambios Reactivos:  ' . $estudio_pap['cambios_reactivos'], 1, 1);
+
+        $pdf->SetX($x);
+        $pdf->Cell(180, 10, utf8_decode('C.Cél. Pavimentosa:  ' . $estudio_pap['cambios_asoc_celula_pavimentosa']), 1, 1);
+
+        $pdf->SetX($x);
+        $pdf->Cell(180, 10, utf8_decode('C.Cél. Glandulares:   ' . $estudio_pap['cambios_celula_glandulares']), 1, 1);
+
+        $pdf->SetX($x);
+        $pdf->Cell(180, 10, utf8_decode('Cél. Metaplástica:     ' . $estudio_pap['celula_metaplastica']), 1, 1);
+
+        $pdf->SetX($x);
+        $pdf->Cell(180, 10, 'Otras Neo Malignas: ' . $estudio_pap['otras_neo_malignas'], 1, 1);
+
+        $pdf->SetX($x);
+        $pdf->Cell(180, 10, 'Toma:                         ' . $estudio_pap['toma'], 1, 1);
+
+        $pdf->SetX($x);
+        $pdf->Cell(180, 10, 'Recomendaciones:   ' . $estudio_pap['recomendaciones'], 1, 1);
+
+        $pdf->SetX($x);
+        $pdf->Cell(180, 10, 'Microorganismos:     ' . $estudio_pap['microorganismos'], 1, 1);
+
+        $pdf->SetX($x);
+        $pdf->Cell(180, 10, 'Resultado:                  ' . $estudio_pap['resultado'], 1, 1);
+    }
+}
