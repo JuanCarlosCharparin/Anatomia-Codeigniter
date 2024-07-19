@@ -143,7 +143,7 @@ class Biopsia_model extends CI_Model {
         $this->db2->where('nro_servicio', $n_servicio);
         $this->db2->update('estudio', $data);
 
-        return $this->db2->affected_rows() > 0; // Retorna true si se actualizó al menos una fila
+        return $this->db2->affected_rows() > 0; 
     }
 
 

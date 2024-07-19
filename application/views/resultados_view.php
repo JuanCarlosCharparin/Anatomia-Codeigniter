@@ -170,15 +170,18 @@ $(document).ready(function () {
                     // Cargar datos desde localStorage
                     cargarDatos(n_servicio);
 
-                    // Verificar si los datos han sido guardados de forma irreversible
-                    if (localStorage.getItem('isDataSaved_' + n_servicio)) {
-                        // Deshabilitar todos los campos de entrada y estilizar como grisáceo
+                    // Deshabilitar campos según el estado del estudio
+                    if (response.estudio_finalizado) {
                         $('#editModal .modal-body input, #editModal .modal-body textarea, #editModal .modal-body select, #limpiarDatos')
                             .prop('disabled', true)
                             .css('background-color', '#e9ecef');
-
-                        $('#editModal .modal-body .select2-container--default .select2-selection--single');
+                    } else if (localStorage.getItem('isDataSaved_' + n_servicio)) {
+                        $('#editModal .modal-body input, #editModal .modal-body textarea, #editModal .modal-body select, #limpiarDatos')
+                            .prop('disabled', true)
+                            .css('background-color', '#e9ecef');
                     }
+                } else if (response.error) {
+                    alert(response.error);
                 }
             },
             error: function(xhr, status, error) {

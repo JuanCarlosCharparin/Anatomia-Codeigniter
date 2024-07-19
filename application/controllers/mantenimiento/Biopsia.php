@@ -11,16 +11,28 @@ class Biopsia extends CI_Controller {
 
     public function getEditModalContent($n_servicio) {
         try {
-        
+            // Buscar estudio por número de servicio
             $estudio = $this->Biopsia_model->buscarPorNServicio($n_servicio);
+    
             if ($estudio) {
-        
+                // Calcular edad y convertir género
                 $estudio['edad'] = $this->calcularEdad($estudio['fecha_nacimiento']);
                 $estudio['sexo'] = $this->convertirGenero($estudio['genero']);
                 
+                // Preparar datos para la vista del modal
                 $data = array_merge($estudio);
+                
+                // Cargar contenido del modal
                 $html = $this->load->view('biopsia_edit', ['estudio' => $data], true);
-                $response = ['html' => $html];
+                
+                // Determinar si el estudio está finalizado
+                $estudio_finalizado = ($estudio['estado'] === 'finalizado');
+                
+                // Preparar respuesta JSON
+                $response = [
+                    'html' => $html,
+                    'estudio_finalizado' => $estudio_finalizado
+                ];
                 echo json_encode($response);
             } else {
                 $response = ['error' => 'Estudio no encontrado'];
@@ -186,7 +198,7 @@ class Biopsia extends CI_Controller {
     public function modificarEstadoFinalizado($n_servicio) {
         try {
             $nuevo_estado_finalizado = 'finalizado';
-            // Lógica para cambiar el estado del estudio
+        
             $this->load->model('Biopsia_model');
             $this->Biopsia_model->cambiarEstadoFinalizado($n_servicio, $nuevo_estado_finalizado);
     
