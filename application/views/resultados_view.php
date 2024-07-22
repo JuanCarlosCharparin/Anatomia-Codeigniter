@@ -122,6 +122,11 @@
 <script>
 $(document).ready(function () {
     // Delegar el evento click al documento para el botón #saveChanges
+    var n_servicio = $('#n_servicio').val();
+    if (localStorage.getItem('isDataSaved_' + n_servicio) === 'true') {
+        $('#saveChanges').prop('disabled', true);
+        $('#actualizarDatos').prop('disabled', true); // Deshabilitar también el botón actualizar
+    }
     $(document).on('click', '#saveChanges', function() {
         var formData = $('#editEstudioForm').serialize();
         $.ajax({
@@ -144,6 +149,7 @@ $(document).ready(function () {
                     }).then((result) => {
                         $('#editModal').modal('hide');
                         window.location.href = window.location.href; // Redireccionar a la misma página
+                        $('#saveChanges').prop('disabled', true);
                     });
                 } else {
                     alert('Error al guardar los datos');
@@ -175,6 +181,8 @@ $(document).ready(function () {
                         $('#editModal .modal-body input, #editModal .modal-body textarea, #editModal .modal-body select, #limpiarDatos')
                             .prop('disabled', true)
                             .css('background-color', '#e9ecef');
+                        $('#saveChanges').prop('disabled', true);
+                        $('#actualizarDatos').prop('disabled', true);
                     } else if (localStorage.getItem('isDataSaved_' + n_servicio)) {
                         $('#editModal .modal-body input, #editModal .modal-body textarea, #editModal .modal-body select, #limpiarDatos')
                             .prop('disabled', true)

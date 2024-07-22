@@ -37,7 +37,6 @@ class Estudios extends CI_Controller
         // Obtener datos del paciente si se ha filtrado por paciente
         if (!empty($filtros['paciente'])) {
             $data['paciente'] = $this->Estudio_model->obtener_paciente($filtros['paciente']);
-            var_dump($data['paciente']);
         }
     
         // Cargar vistas con los resultados
