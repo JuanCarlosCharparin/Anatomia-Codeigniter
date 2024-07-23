@@ -20,6 +20,7 @@ $route['mantenimiento/biopsia/modificarEstado/(:num)'] = 'biopsia/modificarEstad
 
 //Ficha
 $route['mantenimiento/reporte_pdf/generar_pdf/(:num)'] = 'reportePdf/generar_pdf/$1';
+$route['mantenimiento/TCpdf/generar_tcpdf/(:num)'] = 'TCpdf/generar_tcpdf/$1';
 
 
 

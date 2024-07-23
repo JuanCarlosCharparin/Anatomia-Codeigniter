@@ -5,6 +5,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 require_once APPPATH . 'libraries/fpdf/fpdf.php'; // Ruta a la librería FPDF
 
+/*require_once APPPATH . 'libraries/html2pdf/vendor/autoload.php';*/
+
+
 class ReportePdf extends CI_Controller {
 
     public function __construct() {
@@ -36,8 +39,20 @@ class ReportePdf extends CI_Controller {
         // Salida del PDF
         $pdf->Output('I');
         exit;
+
+        /*$html2pdf = new \Spipu\Html2Pdf\Html2Pdf('P', 'A4', 'es');
+        $html = $this->contenido_html($nro_servicio);
+        // Cargar contenido HTML
+        
+        $html2pdf->writeHTML($html);
+
+        // Generar y mostrar el PDF
+        $html2pdf->Output('Reporte.pdf', 'I');
+        exit;*/
+
     }
 
+    
     function Header($pdf) {
         $pdf->Image('assets/images/Logo-HU.png', 15, 12, 90); // Aumentar el tamaño del logo
         $pdf->Ln(25);

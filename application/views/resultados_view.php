@@ -30,7 +30,7 @@
                                             data-n_servicio="<?php echo $resultado['n_servicio']; ?>">
                                             <i class="fa fa-edit"></i>
                                         </button>
-                                        <a href="<?php echo base_url('mantenimiento/reportePdf/generar_pdf/' . $resultado['n_servicio']); ?>" class="btn btn-primary btn-sm" target="_blank">
+                                        <a href="<?php echo base_url('mantenimiento/ReportePdf/generar_pdf/' . $resultado['n_servicio']); ?>" class="btn btn-primary btn-sm" target="_blank">
                                             <i class="fa fa-file-pdf-o"></i>
                                         </a>
                                         <style>
